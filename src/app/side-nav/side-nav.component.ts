@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {SideNavToggleService} from '../shared/side-nav-toggle.service';
 
 @Component({
   selector: 'app-side-nav',
@@ -6,10 +7,17 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./side-nav.component.css']
 })
 export class SideNavComponent implements OnInit {
+  private collapsed = false;
 
-  constructor() { }
+  constructor(private sideNavToggleService: SideNavToggleService) {}
 
   ngOnInit() {
+    this.sideNavToggleService.collapsedChanged
+      .subscribe(
+        (collapsed: boolean) => {
+          this.collapsed = collapsed;
+        }
+      );
   }
 
 }

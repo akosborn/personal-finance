@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
+import {SideNavToggleService} from '../shared/side-nav-toggle.service';
 
 @Component({
   selector: 'app-top-nav',
@@ -6,10 +7,13 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./top-nav.component.css']
 })
 export class TopNavComponent implements OnInit {
-
-  constructor() { }
+  constructor(private sideNavToggleService: SideNavToggleService) {}
 
   ngOnInit() {
   }
 
+  onToggleSidebar() {
+    const sideNavCollapsed = this.sideNavToggleService.isCollapsed();
+    this.sideNavToggleService.setCollapsed(!sideNavCollapsed);
+  }
 }
