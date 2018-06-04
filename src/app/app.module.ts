@@ -4,6 +4,7 @@ import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
 import { TopNavComponent } from './top-nav/top-nav.component';
 import { SideNavComponent } from './side-nav/side-nav.component';
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [
@@ -12,7 +13,8 @@ import { SideNavComponent } from './side-nav/side-nav.component';
     SideNavComponent
   ],
   imports: [
-    BrowserModule
+    BrowserModule,
+    NgbModule.forRoot()
   ],
   providers: [],
   bootstrap: [AppComponent]
