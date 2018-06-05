@@ -12,7 +12,7 @@ export class WalletService {
   getWallet(): Wallet {
     return this.wallet;
   }
-  
+
   updateWallet(wallet: Wallet) {
     this.wallet = wallet;
     this.walletChanged.next(wallet);
