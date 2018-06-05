@@ -3,6 +3,14 @@ export class Wallet {
   private savingsBalance;
   private debtBalance;
 
+  constructor(checkingBalance: number,
+              savingsBalance: number,
+              debtBalance: number) {
+    this.checkingBalance = checkingBalance;
+    this.savingsBalance = savingsBalance;
+    this.debtBalance = debtBalance;
+  }
+
   getCheckingBalance(): number {
     return this.checkingBalance;
   }
