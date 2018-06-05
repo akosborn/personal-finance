@@ -57,6 +57,7 @@
   color: #ffffff;
   background: #2F3A4A;
   border-left: 3px solid #16A5FA;
+  margin-left: -3px;
 }
 
 .sidebar .nav-link:hover .feather,

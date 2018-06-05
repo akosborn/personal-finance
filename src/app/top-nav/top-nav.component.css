@@ -32,3 +32,7 @@
 .navbar-nav a {
   color: #000000;
 }
+
+button {
+  outline: none;
+}
