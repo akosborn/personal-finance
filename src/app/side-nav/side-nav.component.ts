@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, HostListener, OnInit} from '@angular/core';
 import {SideNavToggleService} from '../shared/side-nav-toggle.service';
 
 @Component({
@@ -7,11 +7,20 @@ import {SideNavToggleService} from '../shared/side-nav-toggle.service';
   styleUrls: ['./side-nav.component.css']
 })
 export class SideNavComponent implements OnInit {
-  private collapsed = false;
+  private collapsed;
+  private screenWidth;
+  @HostListener('window:resize', ['$event']) onResize(event?) {
+    this.screenWidth = window.innerWidth;
+    if (this.screenWidth > 575) {
+      this.sideNavToggleService.setCollapsed(false);
+    }
+  }
 
   constructor(private sideNavToggleService: SideNavToggleService) {}
 
   ngOnInit() {
+    this.onResize();
+    this.collapsed = this.sideNavToggleService.isCollapsed();
     this.sideNavToggleService.collapsedChanged
       .subscribe(
         (collapsed: boolean) => {
@@ -19,5 +28,4 @@ export class SideNavComponent implements OnInit {
         }
       );
   }
-
 }

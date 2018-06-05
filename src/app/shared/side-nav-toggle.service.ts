@@ -4,7 +4,7 @@ import {Subject} from 'rxjs';
 @Injectable()
 export class SideNavToggleService {
   collapsedChanged = new Subject<boolean>();
-  private collapsed = false;
+  private collapsed = true;
 
   constructor() { }
 
