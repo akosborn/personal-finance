@@ -11,8 +11,10 @@ export class SideNavComponent implements OnInit {
   private screenWidth;
   @HostListener('window:resize', ['$event']) onResize(event?) {
     this.screenWidth = window.innerWidth;
-    if (this.screenWidth > 575) {
+    if (this.screenWidth > 767) {
       this.sideNavToggleService.setCollapsed(false);
+    } else {
+      this.sideNavToggleService.setCollapsed(true);
     }
   }
 

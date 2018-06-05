@@ -7,7 +7,8 @@ import {SideNavToggleService} from './side-nav-toggle.service';
 export class FullWidthDirective implements OnInit {
   @HostBinding('class.col-md-9') colMd9 = true;
   @HostBinding('class.ml-sm-auto') colMlSmAuto = true;
-  @HostBinding('class.col-lg-10') colLg10 = true;
+  @HostBinding('class.col-lg-9') colLg9 = true;
+  @HostBinding('class.col-xl-10') colXl10 = true;
   @HostBinding('class.col-12') col12 = false;
 
   constructor(private sideNavToggleService: SideNavToggleService) { }
@@ -18,7 +19,8 @@ export class FullWidthDirective implements OnInit {
         (collapsed: boolean) => {
           this.colMd9 = !collapsed;
           this.colMlSmAuto = !collapsed;
-          this.colLg10 = !collapsed;
+          this.colLg9 = !collapsed;
+          this.colXl10 = !collapsed;
           this.col12 = collapsed;
         }
       );
