@@ -3,15 +3,15 @@
   <div class="row no-gutters">
     <hr>
     <div class="col-12 col-md-4" style="text-align: center">
-      <h2>$1100.75</h2>
+      <h2>${{ wallet.getCheckingBalance() }}</h2>
       <p><b>CHECKING</b> BALANCE</p>
     </div>
     <div class="col-12 col-md-4 border-left border-right" style="text-align: center">
-      <h2>$105.85</h2>
+      <h2>${{ wallet.getSavingsBalance() }}</h2>
       <p style="text-align: center"><b>SAVINGS</b> BALANCE</p>
     </div>
     <div class="col-12 col-md-4" style="text-align: center">
-      <h2>$24,750.58</h2>
+      <h2>${{ wallet.getDebtBalance() }}</h2>
       <p style="text-align: center"><b>DEBT</b> BALANCE</p>
     </div>
   </div>
