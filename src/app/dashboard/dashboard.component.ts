@@ -8,7 +8,7 @@ import {Wallet} from '../shared/wallet.model';
   styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent implements OnInit {
-  private wallet: Wallet;
+  wallet: Wallet;
 
   constructor(private walletService: WalletService) { }
 
