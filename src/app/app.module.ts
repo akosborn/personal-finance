@@ -9,6 +9,7 @@ import { SideNavToggleService } from './shared/side-nav-toggle.service';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { FullWidthDirective } from './shared/full-width.directive';
 import {WalletService} from './shared/wallet.service';
+import {AppRoutingModule} from './app-routing.module';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import {WalletService} from './shared/wallet.service';
   ],
   imports: [
     BrowserModule,
-    NgbModule.forRoot()
+    NgbModule.forRoot(),
+    AppRoutingModule
   ],
   providers: [
     SideNavToggleService,
