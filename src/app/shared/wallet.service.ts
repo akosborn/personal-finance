@@ -21,7 +21,8 @@ export class WalletService {
       .pipe(
         map(
           (wallet: any) => {
-          return new Wallet(wallet.balance, 0, 0);
+            console.log(wallet);
+          return wallet;
           }
         )
       )
