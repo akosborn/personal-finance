@@ -46,6 +46,7 @@
 .sidebar .nav-link {
   font-weight: 500;
   color: #767D83;
+  cursor: pointer;
 }
 
 .sidebar .nav-link .feather {
