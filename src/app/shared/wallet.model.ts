@@ -1,13 +1,13 @@
 export class Wallet {
-  checkingBalance: number;
-  savingsBalance: number;
-  debtBalance: number;
+  id: string;
+  name: string;
+  balance: number;
 
-  constructor(checkingBalance: number,
-              savingsBalance: number,
-              debtBalance: number) {
-    this.checkingBalance = checkingBalance;
-    this.savingsBalance = savingsBalance;
-    this.debtBalance = debtBalance;
+  constructor(id: string,
+              name: string,
+              balance: number) {
+    this.id = id;
+    this.name = name;
+    this.balance = balance;
   }
 }
