@@ -13,12 +13,13 @@ export class DashboardComponent implements OnInit {
   constructor(private walletService: WalletService) { }
 
   ngOnInit() {
-    this.wallet = this.walletService.getWallet();
-    this.walletService.getWalletSubject()
+    this.walletService.getWallet()
       .subscribe(
         (wallet: Wallet) => {
           this.wallet = wallet;
+          console.log('walletSubscription: ' + this.wallet);
         }
       );
+    console.log('ngOnInit: ' + this.wallet);
   }
 }
