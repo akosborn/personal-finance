@@ -15,11 +15,9 @@ export class DashboardComponent implements OnInit {
   ngOnInit() {
     this.walletService.getWallet()
       .subscribe(
-        (wallet: Wallet) => {
+        (wallet: any) => {
           this.wallet = wallet;
-          console.log('walletSubscription: ' + this.wallet);
         }
       );
-    console.log('ngOnInit: ' + this.wallet);
   }
 }

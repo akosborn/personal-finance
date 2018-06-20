@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Wallet } from './wallet.model';
-import {Observable, Subject} from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 
@@ -14,7 +14,7 @@ export class WalletService {
     return this.http.get(WalletService.baseUrl + 'wallet')
       .pipe(
         map(
-          (wallet: any) => {
+          (wallet: Wallet) => {
             return wallet;
           }
         )
