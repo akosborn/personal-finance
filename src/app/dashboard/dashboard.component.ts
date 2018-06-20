@@ -1,6 +1,6 @@
-import {Component, OnInit} from '@angular/core';
-import {WalletService} from '../shared/wallet.service';
-import {Wallet} from '../shared/wallet.model';
+import { Component, OnInit } from '@angular/core';
+import { WalletService } from '../shared/wallet.service';
+import { Wallet } from '../shared/wallet.model';
 
 @Component({
   selector: 'app-dashboard',
@@ -15,8 +15,11 @@ export class DashboardComponent implements OnInit {
   ngOnInit() {
     this.walletService.getWallet()
       .subscribe(
-        (wallet: any) => {
-          this.wallet = wallet;
+        (data: Wallet) => {
+          this.wallet = new Wallet(
+            data.id, data.name, data.description, data.checkingAccounts, data.savingsAccounts,
+            data.loans, data.creditCards, data.investments
+          );
         }
       );
   }
