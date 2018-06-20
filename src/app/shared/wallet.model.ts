@@ -1,13 +1,10 @@
 export class Wallet {
-  id: string;
+  id: number;
   name: string;
-  balance: number;
-
-  constructor(id: string,
-              name: string,
-              balance: number) {
-    this.id = id;
-    this.name = name;
-    this.balance = balance;
-  }
+  description: string;
+  checkingAccounts: Set<any>;
+  savingsAccounts: Set<any>;
+  loans: Set<any>;
+  creditCards: Set<any>;
+  investments: any;
 }
