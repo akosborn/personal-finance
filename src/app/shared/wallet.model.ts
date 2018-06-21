@@ -1,20 +1,20 @@
-import { CheckingAccount } from './CheckingAccount';
+import { CheckingAccountModel } from './checking-account.model';
 import { SavingsAccount } from './SavingsAccount';
 import { Loan } from './Loan';
-import { CreditCard } from './CreditCard';
-import { Investment } from './Investment';
+import { Investment } from './investment.model';
+import { CreditCard } from './credit-card.model';
 
 export class Wallet {
   id: number;
   name: string;
   description: string;
-  checkingAccounts: CheckingAccount[] = [];
+  checkingAccounts: CheckingAccountModel[] = [];
   savingsAccounts: SavingsAccount[] = [];
   loans: Loan[] = [];
   creditCards: CreditCard[] = [];
   investments: Investment[] = [];
 
-  constructor(id: number, name: string, description: string, checkingAccounts: CheckingAccount[],
+  constructor(id: number, name: string, description: string, checkingAccounts: CheckingAccountModel[],
               savingsAccounts: SavingsAccount[], loans: Loan[], creditCards: CreditCard[],
               investments: Investment[]) {
     this.id = id;
@@ -27,7 +27,7 @@ export class Wallet {
     this.investments = investments;
   }
 
-  private static calculateBalance(accounts: CheckingAccount[] | SavingsAccount[] | Loan[] | CreditCard[] | Investment[]): number {
+  private static calculateBalance(accounts: CheckingAccountModel[] | SavingsAccount[] | Loan[] | CreditCard[] | Investment[]): number {
     let balance = 0;
     for (const acct of accounts) {
       balance += acct.balance;
