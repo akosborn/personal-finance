@@ -14,7 +14,6 @@ export class Wallet {
   creditCards: CreditCard[] = [];
   investments: Investment[] = [];
 
-
   constructor(id: number, name: string, description: string, checkingAccounts: CheckingAccount[],
               savingsAccounts: SavingsAccount[], loans: Loan[], creditCards: CreditCard[],
               investments: Investment[]) {

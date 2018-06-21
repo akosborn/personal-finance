@@ -1,26 +1,28 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import { WalletService } from '../shared/wallet.service';
 import { Wallet } from '../shared/wallet.model';
+import {Subscription} from 'rxjs';
 
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css']
 })
-export class DashboardComponent implements OnInit {
+export class DashboardComponent implements OnInit, OnDestroy {
   wallet: Wallet;
+  private walletSubscription: Subscription;
 
   constructor(private walletService: WalletService) { }
 
   ngOnInit() {
-    this.walletService.getWallet()
+    this.wallet = this.walletService.wallet;
+    this.walletSubscription = this.walletService.walletSubject
       .subscribe(
-        (data: Wallet) => {
-          this.wallet = new Wallet(
-            data.id, data.name, data.description, data.checkingAccounts, data.savingsAccounts,
-            data.loans, data.creditCards, data.investments
-          );
-        }
+        (wallet: Wallet) => this.wallet = wallet
       );
+  }
+
+  ngOnDestroy(): void {
+    this.walletSubscription.unsubscribe();
   }
 }

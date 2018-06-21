@@ -1,6 +1,9 @@
 <div [ngbCollapse]="collapsed" class="wrapper">
   <nav class="col-6 col-md-3 col-xl-2 d-md-block sidebar">
     <div class="sidebar-sticky">
+      <h6 *ngIf="wallet" class="sidebar-heading d-flex justify-content-center mb-1 text-muted">
+        {{ wallet.name }} Wallet
+      </h6>
       <ul class="nav flex-column">
         <li class="nav-item">
           <a class="nav-link active"
@@ -38,7 +41,19 @@
         <li class="nav-item">
           <a class="nav-link" href="#">
             <span data-feather="file-text"></span>
-            Debt
+            Credit Cards
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">
+            <span data-feather="file-text"></span>
+            Investments
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">
+            <span data-feather="file-text"></span>
+            Loans
           </a>
         </li>
         <li class="nav-item">
