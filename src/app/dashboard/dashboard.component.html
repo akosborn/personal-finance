@@ -4,15 +4,15 @@
     <hr>
     <div class="col-12 col-md-4" style="text-align: center">
       <h2>{{ wallet.getCheckingBalance() | currency:'USD' }}</h2>
-      <p><b>CHECKING</b> BALANCE ({{ wallet.checkingAccounts.length }})</p>
+      <p><b>CHECKING</b> BALANCE</p>
     </div>
     <div class="col-12 col-md-4 border-left border-right" style="text-align: center">
       <h2>{{ wallet.getSavingsBalance() | currency:'USD' }}</h2>
-      <p style="text-align: center"><b>SAVINGS</b> BALANCE ({{ wallet.savingsAccounts.length }})</p>
+      <p style="text-align: center"><b>SAVINGS</b> BALANCE</p>
     </div>
     <div class="col-12 col-md-4" style="text-align: center">
       <h2>{{ wallet.getCreditCardBalance() + wallet.getLoansBalance() | currency:'USD' }}</h2>
-      <p style="text-align: center"><b>DEBT</b> BALANCE ({{ wallet.creditCards.length + wallet.loans.length }})</p>
+      <p style="text-align: center"><b>DEBT</b> BALANCE</p>
     </div>
   </div>
 </div>

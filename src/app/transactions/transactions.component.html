@@ -7,6 +7,7 @@
         <thead class="thead-light">
           <tr>
             <th scope="col">DATE</th>
+            <th scope="col">CATEGORY</th>
             <th scope="col">DESCRIPTION</th>
             <th scope="col">AMOUNT</th>
           </tr>
@@ -14,12 +15,14 @@
         <tbody>
           <tr *ngFor="let expense of expenses">
             <th scope="row">{{ expense.date | date:'mediumDate' }}</th>
+            <td></td>
             <td>{{ expense.description }}</td>
             <td>{{ expense.amount | currency:'USD'}}</td>
           </tr>
         </tbody>
         <thead class="thead-light">
           <tr>
+            <th scope="col"></th>
             <th scope="col"></th>
             <th scope="col">TOTAL</th>
             <th scope="col">{{ expenses | sum:'amount' | currency:'USD' }}</th>
