@@ -14,6 +14,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { TransactionsComponent } from './transactions/transactions.component';
 import { ExpenseService } from './shared/expense.service';
 import { SumPipe } from './shared/sum.pipe';
+import { CheckingAccountsComponent } from './checking-accounts/checking-accounts.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import { SumPipe } from './shared/sum.pipe';
     DashboardComponent,
     FullWidthDirective,
     TransactionsComponent,
-    SumPipe
+    SumPipe,
+    CheckingAccountsComponent
   ],
   imports: [
     BrowserModule,

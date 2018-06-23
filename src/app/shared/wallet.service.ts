@@ -21,7 +21,7 @@ export class WalletService implements OnInit {
   }
 
   getWallet(): Observable<Wallet> {
-    return this.http.get<Wallet>(AppComponent.apiBaseUrl + 'wallets')
+    return this.http.get<Wallet>(AppComponent.apiBaseUrl + 'wallet')
       .pipe(map(
         (data: Wallet) =>
           this.wallet = new Wallet(
