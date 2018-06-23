@@ -8,9 +8,12 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { SideNavToggleService } from './shared/side-nav-toggle.service';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { FullWidthDirective } from './shared/full-width.directive';
-import {WalletService} from './shared/wallet.service';
-import {AppRoutingModule} from './app-routing.module';
-import {HttpClientModule} from '@angular/common/http';
+import { WalletService } from './shared/wallet.service';
+import { AppRoutingModule } from './app-routing.module';
+import { HttpClientModule } from '@angular/common/http';
+import { TransactionsComponent } from './transactions/transactions.component';
+import { ExpenseService } from './shared/expense.service';
+import { SumPipe } from './shared/sum.pipe';
 
 @NgModule({
   declarations: [
@@ -18,7 +21,9 @@ import {HttpClientModule} from '@angular/common/http';
     TopNavComponent,
     SideNavComponent,
     DashboardComponent,
-    FullWidthDirective
+    FullWidthDirective,
+    TransactionsComponent,
+    SumPipe
   ],
   imports: [
     BrowserModule,
@@ -28,6 +33,7 @@ import {HttpClientModule} from '@angular/common/http';
   ],
   providers: [
     SideNavToggleService,
+    ExpenseService,
     WalletService
   ],
   bootstrap: [AppComponent]

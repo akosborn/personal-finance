@@ -1,6 +1,6 @@
-import { Account } from './Account';
+import { AccountModel } from './account.model';
 
-export class CreditCard implements Account {
+export class CreditCard implements AccountModel {
   balance: number;
   description: string;
   id: number;

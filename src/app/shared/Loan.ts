@@ -1,6 +1,6 @@
-import { Account } from './Account';
+import { AccountModel } from './account.model';
 
-export class Loan implements Account {
+export class Loan implements AccountModel {
   balance: number;
   description: string;
   id: number;
