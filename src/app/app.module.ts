@@ -15,6 +15,10 @@ import { TransactionsComponent } from './transactions/transactions.component';
 import { ExpenseService } from './shared/expense.service';
 import { SumPipe } from './shared/sum.pipe';
 import { CheckingAccountsComponent } from './checking-accounts/checking-accounts.component';
+import { SavingsAccountsComponent } from './savings-accounts/savings-accounts.component';
+import { CreditCardsComponent } from './credit-cards/credit-cards.component';
+import { InvestmentsComponent } from './investments/investments.component';
+import { LoansComponent } from './loans/loans.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +29,11 @@ import { CheckingAccountsComponent } from './checking-accounts/checking-accounts
     FullWidthDirective,
     TransactionsComponent,
     SumPipe,
-    CheckingAccountsComponent
+    CheckingAccountsComponent,
+    SavingsAccountsComponent,
+    CreditCardsComponent,
+    InvestmentsComponent,
+    LoansComponent
   ],
   imports: [
     BrowserModule,

@@ -1,0 +1,35 @@
+<div class="justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
+  <h1 class="h2 border-bottom">Savings Accounts</h1>
+  <div class="row no-gutters">
+    <hr>
+    <div class="col-12">
+      <table class="table">
+        <thead class="thead-light">
+        <tr>
+          <th scope="col">NAME</th>
+          <th scope="col">DESCRIPTION</th>
+          <th scope="col">APY</th>
+          <th scope="col">BALANCE</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let account of savingsAccounts">
+          <th scope="row">{{ account.name }}</th>
+          <td>{{ account.description }}</td>
+          <td>{{ account.interestRate | number:'1.2-2' }} %</td>
+          <td>{{ account.balance | currency:'USD'}}</td>
+        </tr>
+        </tbody>
+        <thead class="thead-light">
+        <tr>
+          <th scope="col"></th>
+          <th scope="col"></th>
+          <th scope="col">TOTAL</th>
+          <th scope="col">{{ savingsAccounts | sum:'balance' | currency:'USD' }}</th>
+        </tr>
+        </thead>
+      </table>
+    </div>
+  </div>
+</div>
+
