@@ -25,4 +25,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.walletSubscription.unsubscribe();
   }
+
+  onLogin() {
+    this.walletService.login();
+  }
 }

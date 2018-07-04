@@ -1,7 +1,7 @@
 import {Injectable, OnInit} from '@angular/core';
 import { Wallet } from './wallet.model';
 import {Observable, Subject, Subscription} from 'rxjs';
-import { HttpClient } from '@angular/common/http';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {map} from 'rxjs/operators';
 import {AppComponent} from '../app.component';
 
@@ -28,5 +28,23 @@ export class WalletService implements OnInit {
             data.id, data.name, data.description, data.checkingAccounts, data.savingsAccounts,
             data.loans, data.creditCards, data.investments)
       ));
+  }
+
+  login() {
+    const headers = new HttpHeaders({'x-auth-token': this.getCookie('AUTH-TOKEN')});
+    console.log(headers);
+    return this.http.get('http://localhost:8080/api/user/current', {headers: headers})
+      .subscribe(
+        (data: any) => console.log(data),
+        (error: Error) => console.log(error)
+      );
+  }
+
+  getCookie(name) {
+    const value = '; ' + document.cookie;
+    const parts = value.split('; ' + name + '=');
+    if (parts.length === 2) {
+      return parts.pop().split(';').shift();
+    }
   }
 }
