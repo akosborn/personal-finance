@@ -19,6 +19,18 @@ import { SavingsAccountsComponent } from './savings-accounts/savings-accounts.co
 import { CreditCardsComponent } from './credit-cards/credit-cards.component';
 import { InvestmentsComponent } from './investments/investments.component';
 import { LoansComponent } from './loans/loans.component';
+import { AuthServiceConfig, GoogleLoginProvider, SocialLoginModule } from 'angularx-social-login';
+
+const config = new AuthServiceConfig([
+  {
+    id: GoogleLoginProvider.PROVIDER_ID,
+    provider: new GoogleLoginProvider('4146647642-k52cqa8q4csm2d866nl51ic4kc6hu5ve.apps.googleusercontent.com')
+  }
+]);
+
+export function provideConfig() {
+  return config;
+}
 
 @NgModule({
   declarations: [
@@ -39,12 +51,17 @@ import { LoansComponent } from './loans/loans.component';
     BrowserModule,
     NgbModule.forRoot(),
     AppRoutingModule,
-    HttpClientModule
+    HttpClientModule,
+    SocialLoginModule
   ],
   providers: [
     SideNavToggleService,
     ExpenseService,
-    WalletService
+    WalletService,
+    {
+      provide: AuthServiceConfig,
+      useFactory: provideConfig
+    }
   ],
   bootstrap: [AppComponent]
 })
