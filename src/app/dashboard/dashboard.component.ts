@@ -1,7 +1,8 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { WalletService } from '../shared/wallet.service';
 import { Wallet } from '../shared/wallet.model';
-import {Subscription} from 'rxjs';
+import { Subscription } from 'rxjs';
+import { AuthService, GoogleLoginProvider, SocialUser } from 'angularx-social-login';
 
 @Component({
   selector: 'app-dashboard',
@@ -11,10 +12,19 @@ import {Subscription} from 'rxjs';
 export class DashboardComponent implements OnInit, OnDestroy {
   wallet: Wallet;
   private walletSubscription: Subscription;
+  private user: SocialUser;
+  private loggedIn: boolean;
 
-  constructor(private walletService: WalletService) { }
+  constructor(private walletService: WalletService,
+              private authService: AuthService) { }
 
   ngOnInit() {
+    this.authService.authState.subscribe(
+      (user) => {
+        this.user = user;
+        this.loggedIn = (user != null);
+      });
+
     this.wallet = this.walletService.wallet;
     this.walletSubscription = this.walletService.walletSubject
       .subscribe(
@@ -26,7 +36,11 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.walletSubscription.unsubscribe();
   }
 
-  onLogin() {
-    this.walletService.login();
+  signInWithGoogle(): void {
+    this.authService.signIn(GoogleLoginProvider.PROVIDER_ID);
+  }
+
+  signOut(): void {
+    this.authService.signOut();
   }
 }

@@ -1,10 +1,5 @@
 <div class="justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
   <h1 class="h2 border-bottom">Dashboard</h1>
-  <form action="http://localhost:8080/auth/facebook" method="get">
-    <button type="submit" class="btn btn-primary">FB Login Same Page</button>
-  </form>
-  <button onClick="window.open('http://localhost:8080/auth/facebook');" type="submit" class="btn btn-primary">FB Login New Tab</button>
-  <button (click)="onLogin()" class="btn btn-primary">onLogin()</button>
   <div *ngIf="wallet" class="row no-gutters">
     <hr>
     <div class="col-12 col-md-4" style="text-align: center">
