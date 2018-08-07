@@ -12,9 +12,7 @@
   </button>
   <ul class="navbar-nav px-3">
     <li *ngIf="!loggedIn" class="nav-item text-nowrap">
-      <input type="image"
-             (click)="signInWithGoogle()"
-             src="/assets/images/google_1x/btn_google_signin_dark_normal_web.png">
+      <button type="button" class="btn btn-link" (click)="signInWithGoogle()">Sign In</button>
     </li>
     <li *ngIf="loggedIn" class="nav-item text-nowrap">
       <input type="image"
