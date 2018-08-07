@@ -11,7 +11,7 @@
     <span class="navbar-toggler-icon"></span>
   </button>
   <ul class="navbar-nav px-3">
-    <li *ngIf="!(authStateObservable | async)" class="nav-item text-nowrap">
+    <li *ngIf="!loggedIn" class="nav-item text-nowrap">
       <input type="image"
              (click)="signInWithGoogle()"
              src="/assets/images/google_1x/btn_google_signin_dark_normal_web.png">

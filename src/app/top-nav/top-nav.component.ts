@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { SideNavToggleService } from '../shared/side-nav-toggle.service';
 import { AuthService, GoogleLoginProvider, SocialUser } from 'angularx-social-login';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-top-nav',
@@ -13,13 +11,6 @@ export class TopNavComponent implements OnInit {
 
   private user: SocialUser;
   private loggedIn: boolean;
-  private authStateObservable: Observable<boolean> = this.authService.authState.pipe(
-    map(
-      (user) => {
-        return !!user;
-      }
-    )
-  );
 
   constructor(private sideNavToggleService: SideNavToggleService,
               private authService: AuthService) {}
