@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { SideNavToggleService } from '../shared/side-nav-toggle.service';
 import { AuthService, GoogleLoginProvider, SocialUser } from 'angularx-social-login';
+import { ExpenseService } from '../shared/expense.service';
 
 @Component({
   selector: 'app-top-nav',
@@ -11,9 +12,11 @@ export class TopNavComponent implements OnInit {
 
   private user: SocialUser;
   private loggedIn: boolean;
+  private response: string;
 
   constructor(private sideNavToggleService: SideNavToggleService,
-              private authService: AuthService) {}
+              private authService: AuthService,
+              private expenseService: ExpenseService) {}
 
   ngOnInit() {
     this.authService.authState.subscribe(
@@ -35,5 +38,11 @@ export class TopNavComponent implements OnInit {
 
   signOut(): void {
     this.authService.signOut();
+  }
+
+  postToken() {
+    this.expenseService.sendHeader(this.user.idToken).subscribe(
+      (response) => this.response = response
+    );
   }
 }
