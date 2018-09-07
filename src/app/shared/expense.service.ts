@@ -17,7 +17,6 @@ export class ExpenseService {
   sendHeader(token: string): Observable<any> {
     const httpOptions = {
       headers: new HttpHeaders({
-        'Content-Type': 'json/application',
         'Authorization': token
       })
     };
