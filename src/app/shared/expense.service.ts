@@ -15,15 +15,16 @@ export class ExpenseService {
   }
 
   sendHeader(token: string): Observable<any> {
-    const headers = new HttpHeaders({
-      'Content-Type': 'json/application',
-      'Token': token,
-    });
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'json/application',
+        'Authorization': token
+      })
+    };
 
-    return this.http.post(AppComponent.apiBaseUrl + 'expenses/token', token, {headers: headers, responseType: 'text'}).pipe(
+    return this.http.post(AppComponent.apiBaseUrl + 'expenses/token', token, httpOptions).pipe(
       map(
         (response: string) => {
-          console.log(response);
           return response;
         }
       )

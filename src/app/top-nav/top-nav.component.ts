@@ -37,6 +37,7 @@ export class TopNavComponent implements OnInit {
   }
 
   signOut(): void {
+    console.log(this.user.idToken);
     this.authService.signOut();
   }
 

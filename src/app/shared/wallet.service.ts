@@ -4,6 +4,7 @@ import {Observable, Subject, Subscription} from 'rxjs';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {map} from 'rxjs/operators';
 import {AppComponent} from '../app.component';
+import { AuthService } from 'angularx-social-login';
 
 @Injectable()
 export class WalletService implements OnInit {
@@ -11,7 +12,8 @@ export class WalletService implements OnInit {
   walletSubject: Subject<Wallet> = new Subject<Wallet>();
   walletSubscription: Subscription;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient,
+              private authService: AuthService) { }
 
   ngOnInit(): void {
     this.walletSubscription = this.walletSubject
@@ -21,6 +23,7 @@ export class WalletService implements OnInit {
   }
 
   getWallet(): Observable<Wallet> {
+    // const headers = new HttpHeaders({'Authorizaton': })
     return this.http.get<Wallet>(AppComponent.apiBaseUrl + 'wallet')
       .pipe(map(
         (data: Wallet) =>
