@@ -7,16 +7,19 @@ import {SavingsAccountsComponent} from './savings-accounts/savings-accounts.comp
 import {CreditCardsComponent} from './credit-cards/credit-cards.component';
 import {LoansComponent} from './loans/loans.component';
 import {InvestmentsComponent} from './investments/investments.component';
+import { LoginComponent } from './login/login.component';
+import { AuthGuard } from './auth/auth-guard.service';
 
 const appRoutes: Routes = [
   { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
-  { path: 'dashboard', component: DashboardComponent },
-  { path: 'transactions', component: TransactionsComponent },
-  { path: 'checking', component: CheckingAccountsComponent },
-  { path: 'savings', component: SavingsAccountsComponent },
-  { path: 'credit-cards', component: CreditCardsComponent },
-  { path: 'loans', component: LoansComponent },
-  { path: 'investments', component: InvestmentsComponent }
+  { path: 'login', component: LoginComponent},
+  { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard] },
+  { path: 'transactions', component: TransactionsComponent, canActivate: [AuthGuard] },
+  { path: 'checking', component: CheckingAccountsComponent, canActivate: [AuthGuard] },
+  { path: 'savings', component: SavingsAccountsComponent, canActivate: [AuthGuard] },
+  { path: 'credit-cards', component: CreditCardsComponent, canActivate: [AuthGuard] },
+  { path: 'loans', component: LoansComponent, canActivate: [AuthGuard] },
+  { path: 'investments', component: InvestmentsComponent, canActivate: [AuthGuard] }
 ];
 
 @NgModule({

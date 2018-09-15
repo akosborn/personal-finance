@@ -24,7 +24,6 @@ export class TopNavComponent implements OnInit {
       (user) => {
         this.user = user;
         this.loggedIn = (user != null);
-        console.log('Logged out/in');
       }
     );
   }
