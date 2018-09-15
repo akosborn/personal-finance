@@ -19,10 +19,12 @@ export class TopNavComponent implements OnInit {
               private expenseService: ExpenseService) {}
 
   ngOnInit() {
+    console.log(this.authService);
     this.authService.authState.subscribe(
       (user) => {
         this.user = user;
         this.loggedIn = (user != null);
+        console.log('Logged out/in');
       }
     );
   }
@@ -37,13 +39,6 @@ export class TopNavComponent implements OnInit {
   }
 
   signOut(): void {
-    console.log(this.user.idToken);
     this.authService.signOut();
-  }
-
-  postToken() {
-    this.expenseService.sendHeader(this.user.idToken).subscribe(
-      (response) => this.response = response
-    );
   }
 }

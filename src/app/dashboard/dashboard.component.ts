@@ -23,13 +23,22 @@ export class DashboardComponent implements OnInit, OnDestroy {
       (user) => {
         this.user = user;
         this.loggedIn = (user != null);
+        if (this.loggedIn) {
+          this.getWallet();
+        } else {
+          this.wallet = null;
+        }
       });
 
-    this.wallet = this.walletService.wallet;
-    this.walletSubscription = this.walletService.walletSubject
-      .subscribe(
-        (wallet: Wallet) => this.wallet = wallet
-      );
+    this.walletService.getWallet().subscribe(
+      (wallet: Wallet) => this.wallet = wallet
+    );
+  }
+
+  getWallet() {
+    this.walletService.getWallet().subscribe(
+      (wallet: Wallet) => this.wallet = wallet
+    );
   }
 
   ngOnDestroy(): void {
