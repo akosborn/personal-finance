@@ -16,8 +16,8 @@ export class InvestmentsComponent implements OnInit, OnDestroy {
   constructor(private walletService: WalletService) { }
 
   ngOnInit() {
-    if (this.walletService.wallet){
-      this.investments = this.walletService.wallet.investments;
+    if (this.walletService.getWallet()) {
+      this.investments = this.walletService.getWallet().investments;
     }
     this.walletSubscription = this.walletService.walletSubject
       .subscribe(

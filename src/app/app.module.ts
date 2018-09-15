@@ -21,6 +21,7 @@ import { InvestmentsComponent } from './investments/investments.component';
 import { LoansComponent } from './loans/loans.component';
 import { AuthServiceConfig, GoogleLoginProvider, SocialLoginModule } from 'angularx-social-login';
 import { LoginComponent } from './login/login.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 const config = new AuthServiceConfig([
   {
@@ -54,7 +55,8 @@ export function provideConfig() {
     NgbModule.forRoot(),
     AppRoutingModule,
     HttpClientModule,
-    SocialLoginModule
+    SocialLoginModule,
+    ReactiveFormsModule
   ],
   providers: [
     SideNavToggleService,

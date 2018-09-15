@@ -17,8 +17,8 @@ export class CreditCardsComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     // check if wallet initialized
-    if (this.walletService.wallet) {
-      this.creditCards = this.walletService.wallet.creditCards;
+    if (this.walletService.getWallet()) {
+      this.creditCards = this.walletService.getWallet().creditCards;
     }
     this.walletSubscription = this.walletService.walletSubject
       .subscribe(

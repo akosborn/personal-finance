@@ -16,8 +16,8 @@ export class LoansComponent implements OnInit {
   constructor(private walletService: WalletService) { }
 
   ngOnInit() {
-    if (this.walletService.wallet) {
-      this.loans = this.walletService.wallet.loans;
+    if (this.walletService.getWallet()) {
+      this.loans = this.walletService.getWallet().loans;
     }
     this.walletSubscription = this.walletService.walletSubject
       .subscribe(

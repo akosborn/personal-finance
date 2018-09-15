@@ -27,6 +27,52 @@
         </thead>
       </table>
     </div>
+    <form class="form-inline" [formGroup]="accountFormGroup" (submit)="onSubmit()">
+      <div class="form-row">
+        <div class="mb-2 mr-sm-2">
+          <label class="sr-only" for="name">Bank</label>
+          <input type="text" class="form-control"
+                 [class.is-invalid]="accountFormGroup.get('name').hasError('required') && accountFormGroup.get('name').touched"
+                 id="name" placeholder="Bank" formControlName="name">
+          <div *ngIf="accountFormGroup.get('name').hasError('required') && accountFormGroup.get('name').touched"
+               class="invalid-feedback">
+            Please enter a name.
+          </div>
+        </div>
+
+        <div class="mb-2 mr-sm-2">
+          <label class="sr-only" for="description">Description</label>
+          <input type="text" class="form-control" id="description" placeholder="Description"
+                 formControlName="description"
+                 [class.is-invalid]="accountFormGroup.get('description').hasError('maxlength')">
+          <div *ngIf="accountFormGroup.get('description').hasError('maxlength')"
+               class="invalid-feedback d-block">
+            Must be less than 100 characters.
+          </div>
+        </div>
+
+        <div class="col-xl-3 mb-2 mr-sm-2">
+          <label class="sr-only" for="balance">Balance</label>
+          <div class="input-group">
+            <div class="input-group-prepend">
+              <div class="input-group-text">$</div>
+            </div>
+            <input type="text" class="form-control" id="balance" placeholder="Balance"
+                   formControlName="balance"
+                   [class.is-invalid]="accountFormGroup.get('balance').hasError('required') && accountFormGroup.get('balance').touched">
+            <div *ngIf="accountFormGroup.get('balance').hasError('required') && accountFormGroup.get('balance').touched"
+                 class="invalid-feedback d-block">
+              Please enter a name.
+            </div>
+          </div>
+        </div>
+
+        <div class="mb-2">
+          <button type="submit" class="btn btn-primary mb-2"
+                  [disabled]="accountFormGroup.invalid">Add</button>
+        </div>
+      </div>
+    </form>
   </div>
 </div>
 
