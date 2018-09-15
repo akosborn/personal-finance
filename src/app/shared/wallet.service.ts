@@ -4,42 +4,45 @@ import { Observable, Subject, Subscription } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 import { AppComponent } from '../app.component';
-import { AuthService } from 'angularx-social-login';
+import { AuthService, SocialUser } from 'angularx-social-login';
 
 @Injectable()
 export class WalletService {
 
   httpOptions: { headers: HttpHeaders };
-  wallet: Wallet;
+  private wallet: Wallet;
   walletSubject: Subject<Wallet> = new Subject<Wallet>();
-  walletSubscription: Subscription;
   authSub: Subscription;
 
   constructor(private http: HttpClient, private authService: AuthService) {
-    this.walletSubscription = this.walletSubject
-      .subscribe(
-        wallet => this.wallet = wallet,
-        error => console.log(error + ' error. RIP subscription'),
-      );
     this.authSub = this.authService.authState.subscribe(
-      (socialUser) => {
-        console.log(socialUser);
-        this.httpOptions = {
-          headers: new HttpHeaders({
-            'Authorization': socialUser ? socialUser.tokenId : ''
-          })
-        };
+      (user: SocialUser) => {
+        if (user) {
+          this.httpOptions = {
+            headers: new HttpHeaders({
+              'Authorization': user ? user.tokenId : ''
+            })
+          };
+          // Push updated wallet
+          this.loadWallet().subscribe(
+            (wallet: Wallet) => this.walletSubject.next(wallet)
+          );
+        }
       }
     );
   }
 
-  getWallet(): Observable<Wallet> {
+  loadWallet(): Observable<Wallet> {
     return this.http.get<Wallet>(AppComponent.apiBaseUrl + 'wallet', this.httpOptions)
       .pipe(map(
         (data: Wallet) =>
-          this.wallet = new Wallet(
+          new Wallet(
             data.id, data.name, data.description, data.checkingAccounts, data.savingsAccounts,
             data.loans, data.creditCards, data.investments)
       ));
+  }
+
+  getWallet(): Wallet {
+    return this.wallet;
   }
 }

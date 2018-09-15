@@ -10,6 +10,7 @@ import { AuthService, GoogleLoginProvider, SocialUser } from 'angularx-social-lo
   styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent implements OnInit, OnDestroy {
+
   wallet: Wallet;
   private user: SocialUser;
   private loggedIn: boolean;
@@ -22,20 +23,16 @@ export class DashboardComponent implements OnInit, OnDestroy {
       (user) => {
         this.user = user;
         this.loggedIn = (user != null);
-        if (this.loggedIn) {
-          this.getWallet();
-        } else {
-          this.wallet = null;
-        }
       });
 
-    this.walletService.getWallet().subscribe(
+    this.wallet = this.walletService.getWallet();
+    this.walletService.walletSubject.subscribe(
       (wallet: Wallet) => this.wallet = wallet
     );
   }
 
-  getWallet() {
-    this.walletService.getWallet().subscribe(
+  refreshWallet() {
+    this.walletService.loadWallet().subscribe(
       (wallet: Wallet) => this.wallet = wallet
     );
   }

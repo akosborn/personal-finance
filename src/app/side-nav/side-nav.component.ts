@@ -10,11 +10,9 @@ import { AuthService, SocialUser } from 'angularx-social-login';
   templateUrl: './side-nav.component.html',
   styleUrls: ['./side-nav.component.css']
 })
-export class SideNavComponent implements OnInit, OnDestroy {
+export class SideNavComponent implements OnInit {
 
-  private user: SocialUser;
   wallet: Wallet;
-  private walletSubscription: Subscription;
   private collapsed;
   private screenWidth;
   @HostListener('window:resize', ['$event']) onResize(event?) {
@@ -38,22 +36,15 @@ export class SideNavComponent implements OnInit, OnDestroy {
         (collapsed: boolean) => this.collapsed = collapsed
       );
 
-    // get wallet from server
-    this.walletService.getWallet()
-      .subscribe(
-        (wallet: Wallet) => {
-          this.wallet = wallet;
-          this.walletService.walletSubject
-            .next(this.wallet);
-        }
-      );
-    this.walletSubscription = this.walletService.walletSubject
-      .subscribe(
-        (wallet: Wallet) => this.wallet = wallet
-      );
+    this.wallet = this.walletService.getWallet();
+    this.walletService.walletSubject.subscribe(
+      (wallet: Wallet) => this.wallet = wallet
+    );
   }
 
-  ngOnDestroy(): void {
-    this.walletSubscription.unsubscribe();
+  refreshWallet() {
+    this.walletService.loadWallet().subscribe(
+      (wallet: Wallet) => this.wallet = wallet
+    );
   }
 }
