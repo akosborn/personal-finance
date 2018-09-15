@@ -5,15 +5,12 @@
       PerFI
     </a>
   </div>
-  <button class="navbar-toggler navbar-light mr-auto" (click)="onToggleSidebar()"
+  <button *ngIf="loggedIn" class="navbar-toggler navbar-light mr-auto" (click)="onToggleSidebar()"
           type="button" data-toggle="collapse" data-target="#side-nav-wrapper"
           aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
   <ul class="navbar-nav px-3">
-    <li *ngIf="!loggedIn" class="nav-item text-nowrap">
-      <button type="button" class="btn btn-link" (click)="signInWithGoogle()">Sign In</button>
-    </li>
     <li *ngIf="loggedIn" class="nav-item text-nowrap">
       <input type="image"
              (click)="signOut()"

@@ -20,6 +20,7 @@ import { CreditCardsComponent } from './credit-cards/credit-cards.component';
 import { InvestmentsComponent } from './investments/investments.component';
 import { LoansComponent } from './loans/loans.component';
 import { AuthServiceConfig, GoogleLoginProvider, SocialLoginModule } from 'angularx-social-login';
+import { LoginComponent } from './login/login.component';
 
 const config = new AuthServiceConfig([
   {
@@ -45,7 +46,8 @@ export function provideConfig() {
     SavingsAccountsComponent,
     CreditCardsComponent,
     InvestmentsComponent,
-    LoansComponent
+    LoansComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,

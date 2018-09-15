@@ -11,7 +11,6 @@ import { AuthService, GoogleLoginProvider, SocialUser } from 'angularx-social-lo
 })
 export class DashboardComponent implements OnInit, OnDestroy {
   wallet: Wallet;
-  private walletSubscription: Subscription;
   private user: SocialUser;
   private loggedIn: boolean;
 
@@ -42,6 +41,5 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.walletSubscription.unsubscribe();
   }
 }

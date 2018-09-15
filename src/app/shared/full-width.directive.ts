@@ -1,5 +1,5 @@
-import {Directive, HostBinding, OnInit} from '@angular/core';
-import {SideNavToggleService} from './side-nav-toggle.service';
+import { Directive, HostBinding, OnInit } from '@angular/core';
+import { SideNavToggleService } from './side-nav-toggle.service';
 
 @Directive({
   selector: '[appFullWidth]'
@@ -16,13 +16,15 @@ export class FullWidthDirective implements OnInit {
   ngOnInit(): void {
     this.sideNavToggleService.collapsedChanged
       .subscribe(
-        (collapsed: boolean) => {
-          this.colMd9 = !collapsed;
-          this.colMlSmAuto = !collapsed;
-          this.colLg9 = !collapsed;
-          this.colXl10 = !collapsed;
-          this.col12 = collapsed;
-        }
+        (collapsed: boolean) => this.setFullWidth(collapsed)
       );
+  }
+
+  setFullWidth(collapsed: boolean) {
+    this.colMd9 = !collapsed;
+    this.colMlSmAuto = !collapsed;
+    this.colLg9 = !collapsed;
+    this.colXl10 = !collapsed;
+    this.col12 = collapsed;
   }
 }

@@ -3,6 +3,7 @@ import {SideNavToggleService} from '../shared/side-nav-toggle.service';
 import {Wallet} from '../shared/wallet.model';
 import {WalletService} from '../shared/wallet.service';
 import {Subscription} from 'rxjs';
+import { AuthService, SocialUser } from 'angularx-social-login';
 
 @Component({
   selector: 'app-side-nav',
@@ -10,6 +11,8 @@ import {Subscription} from 'rxjs';
   styleUrls: ['./side-nav.component.css']
 })
 export class SideNavComponent implements OnInit, OnDestroy {
+
+  private user: SocialUser;
   wallet: Wallet;
   private walletSubscription: Subscription;
   private collapsed;
@@ -24,7 +27,8 @@ export class SideNavComponent implements OnInit, OnDestroy {
   }
 
   constructor(private sideNavToggleService: SideNavToggleService,
-              private walletService: WalletService) { }
+              private walletService: WalletService,
+              private authService: AuthService) { }
 
   ngOnInit() {
     this.onResize();
