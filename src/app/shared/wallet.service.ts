@@ -30,6 +30,13 @@ export class WalletService {
         }
       }
     );
+
+    this.walletSubject.subscribe(
+      (wallet: Wallet) => {
+        this.wallet = wallet;
+        console.log(this.wallet);
+      }
+    );
   }
 
   loadWallet(): Observable<Wallet> {
@@ -37,7 +44,7 @@ export class WalletService {
       .pipe(map(
         (data: Wallet) =>
           new Wallet(
-            data.id, data.name, data.description, data.checkingAccounts, data.savingsAccounts,
+            data.id, data.userId, data.name, data.description, data.checkingAccounts, data.savingsAccounts,
             data.loans, data.creditCards, data.investments)
       ));
   }

@@ -14,12 +14,13 @@ export class DashboardComponent implements OnInit, OnDestroy {
   wallet: Wallet;
   private user: SocialUser;
   private loggedIn: boolean;
+  private authSub: Subscription;
 
   constructor(private walletService: WalletService,
               private authService: AuthService) { }
 
   ngOnInit() {
-    this.authService.authState.subscribe(
+    this.authSub = this.authService.authState.subscribe(
       (user) => {
         this.user = user;
         this.loggedIn = (user != null);
@@ -38,5 +39,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
+    this.authSub.unsubscribe();
   }
 }

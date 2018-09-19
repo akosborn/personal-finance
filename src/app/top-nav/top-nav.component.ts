@@ -19,7 +19,6 @@ export class TopNavComponent implements OnInit {
               private expenseService: ExpenseService) {}
 
   ngOnInit() {
-    console.log(this.authService);
     this.authService.authState.subscribe(
       (user) => {
         this.user = user;

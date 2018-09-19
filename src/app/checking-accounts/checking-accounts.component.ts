@@ -5,6 +5,7 @@ import { Subscription } from 'rxjs';
 import { Wallet } from '../shared/wallet.model';
 import { ActivatedRoute } from '@angular/router';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { CheckingService } from '../checking.service';
 
 @Component({
   selector: 'app-checking-accounts',
@@ -13,34 +14,49 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 })
 export class CheckingAccountsComponent implements OnInit, OnDestroy {
 
+  wallet: Wallet;
   checkingAccounts: CheckingAccount[];
   walletSubscription: Subscription;
   accountFormGroup: FormGroup;
 
   constructor(private walletService: WalletService,
-              private activatedRoute: ActivatedRoute) { }
+              private activatedRoute: ActivatedRoute,
+              private checkingService: CheckingService) { }
 
   ngOnInit() {
     // check if wallet initialized
     if (this.walletService.getWallet()) {
+      this.wallet = this.walletService.getWallet();
       this.checkingAccounts = this.walletService.getWallet().checkingAccounts;
+      console.log(this.checkingAccounts);
     }
     this.walletSubscription = this.walletService.walletSubject
       .subscribe(
-        (wallet: Wallet) => this.checkingAccounts = wallet.checkingAccounts
+        (wallet: Wallet) => {
+          this.wallet = wallet;
+          this.checkingAccounts = this.wallet.checkingAccounts;
+          console.log(this.checkingAccounts);
+        }
       );
 
     const action = this.activatedRoute.snapshot.params['action'];
 
     this.accountFormGroup = new FormGroup({
-      name: new FormControl('', [Validators.required, Validators.maxLength(100)]),
-      description: new FormControl('', [Validators.maxLength(100)]),
-      balance: new FormControl('', Validators.required)
+      name: new FormControl(null, [Validators.required, Validators.maxLength(100)]),
+      description: new FormControl(null, [Validators.maxLength(100)]),
+      balance: new FormControl(null, Validators.required)
     });
   }
 
   onSubmit() {
-    console.log(this.accountFormGroup.value, this.accountFormGroup.valid);
+    const account: CheckingAccount = this.accountFormGroup.value;
+    this.checkingService.post(account).subscribe(
+      (accounts: CheckingAccount[]) => {
+        this.wallet.checkingAccounts = accounts;
+        this.walletService.walletSubject.next(this.wallet);
+      }
+    );
+    this.accountFormGroup.reset();
   }
 
   ngOnDestroy(): void {
