@@ -3,19 +3,26 @@
   <div class="row no-gutters">
     <hr>
     <div class="col-12 col-md-4" style="text-align: center">
-      <input *ngIf="!wallet.checkingAccounts || wallet.checkingAccounts.length == 0" type="image" src="assets/images/baseline-add-24px.svg"
-             [routerLink]="['/checking']" [queryParams]="{action: 'add'}">
+      <input *ngIf="!wallet.checkingAccounts || wallet.checkingAccounts.length == 0"
+             type="image" src="assets/images/baseline-add-24px.svg"
+             [routerLink]="['/checking']"
+             [queryParams]="{action: 'add'}">
       <h2 *ngIf="wallet.checkingAccounts.length > 0">{{ wallet.getCheckingBalance() | currency:'USD' }}</h2>
       <p><b>CHECKING</b> BALANCE</p>
     </div>
     <div class="col-12 col-md-4 border-left border-right" style="text-align: center">
-      <input *ngIf="!wallet.savingsAccounts" type="image" src="assets/images/baseline-add-24px.svg">
-      <h2 *ngIf="wallet.savingsAccounts">{{ wallet.getSavingsBalance() | currency:'USD' }}</h2>
+      <input *ngIf="!wallet.savingsAccounts || wallet.savingsAccounts.length == 0"
+             type="image" src="assets/images/baseline-add-24px.svg"
+             [routerLink]="['/savings']">
+      <h2 *ngIf="wallet.savingsAccounts.length > 0">{{ wallet.getSavingsBalance() | currency:'USD' }}</h2>
       <p style="text-align: center"><b>SAVINGS</b> BALANCE</p>
     </div>
     <div class="col-12 col-md-4" style="text-align: center">
-      <input *ngIf="!wallet.creditCards" type="image" src="assets/images/baseline-add-24px.svg">
-      <h2 *ngIf="wallet.creditCards">{{ wallet.getCreditCardBalance() + wallet.getLoansBalance() | currency:'USD' }}</h2>
+      <input *ngIf="!wallet.creditCards || wallet.creditCards.length == 0"
+             type="image"
+             src="assets/images/baseline-add-24px.svg"
+             [routerLink]="['/credit-cards']">
+      <h2 *ngIf="wallet.creditCards.length > 0 || wallet.loans.length > 0">{{ wallet.getCreditCardBalance() + wallet.getLoansBalance() | currency:'USD' }}</h2>
       <p style="text-align: center"><b>DEBT</b> BALANCE</p>
     </div>
   </div>

@@ -5,7 +5,7 @@ export class CreditCard implements AccountModel {
   description: string;
   id: number;
   name: string;
-  limit: number;
+  limitAmt: number;
   minPayment: number;
   interestRate: number;
 }
