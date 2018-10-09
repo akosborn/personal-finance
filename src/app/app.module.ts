@@ -22,6 +22,7 @@ import { LoansComponent } from './loans/loans.component';
 import { AuthServiceConfig, GoogleLoginProvider, SocialLoginModule } from 'angularx-social-login';
 import { LoginComponent } from './login/login.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { ChartsModule } from 'ng2-charts';
 
 const config = new AuthServiceConfig([
   {
@@ -52,6 +53,7 @@ export function provideConfig() {
   ],
   imports: [
     BrowserModule,
+    ChartsModule,
     NgbModule.forRoot(),
     AppRoutingModule,
     HttpClientModule,

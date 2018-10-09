@@ -16,6 +16,11 @@ export class DashboardComponent implements OnInit, OnDestroy {
   private loggedIn: boolean;
   private authSub: Subscription;
 
+  // Pie
+  public pieChartLabels: string[] = ['Groceries', 'Wants', 'Debt Payment', 'Investments'];
+  public pieChartData: number[] = [10, 30, 30, 15];
+  public pieChartType = 'doughnut';
+
   constructor(private walletService: WalletService,
               private authService: AuthService) { }
 
