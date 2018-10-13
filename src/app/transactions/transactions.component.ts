@@ -1,6 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import {ExpenseService} from '../shared/expense.service';
-import {Expense} from '../shared/expense.model';
+import { ExpenseService } from '../shared/expense.service';
+import { Expense } from '../shared/expense.model';
+import { Wallet } from '../shared/wallet.model';
+import { Subscription } from 'rxjs';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { WalletService } from '../shared/wallet.service';
 
 @Component({
   selector: 'app-transactions',
@@ -8,15 +12,42 @@ import {Expense} from '../shared/expense.model';
   styleUrls: ['./transactions.component.css']
 })
 export class TransactionsComponent implements OnInit {
-  expenses: Expense[];
 
-  constructor(private expenseService: ExpenseService) { }
+  wallet: Wallet;
+  expenses: Expense[] = [];
+  walletSubscription: Subscription;
+  expenseFormGroup: FormGroup;
+
+  constructor(private walletService: WalletService,
+              private expenseService: ExpenseService) { }
 
   ngOnInit() {
-    this.expenseService.getExpenses()
+    // check if wallet initialized
+    if (this.walletService.getWallet()) {
+      this.wallet = this.walletService.getWallet();
+    }
+    this.walletSubscription = this.walletService.walletSubject
       .subscribe(
-        (expenses: Expense[]) => this.expenses = expenses
-      );
+        (wallet: Wallet) => {
+          this.wallet = wallet;
+        });
+
+    this.expenseFormGroup = new FormGroup({
+      description: new FormControl(null, [Validators.maxLength(100)]),
+      amount: new FormControl(null, Validators.required),
+      accountId: new FormControl(null, Validators.required)
+    });
   }
 
+  onSubmit(): void {
+    const expense = this.expenseFormGroup.value;
+    console.log(expense);
+    this.expenseService.post(expense)
+      .subscribe(
+        (exp: Expense) => {
+          console.log('Saved expense: ' + exp);
+          this.expenses.push(exp);
+        }
+      );
+  }
 }

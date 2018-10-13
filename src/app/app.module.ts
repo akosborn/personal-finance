@@ -49,7 +49,7 @@ export function provideConfig() {
     CreditCardsComponent,
     InvestmentsComponent,
     LoansComponent,
-    LoginComponent
+    LoginComponent,
   ],
   imports: [
     BrowserModule,

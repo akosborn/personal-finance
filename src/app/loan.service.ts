@@ -1,21 +1,22 @@
 import { Injectable } from '@angular/core';
+import { SavingsAccount } from './shared/SavingsAccount';
 import { Observable, Subject, Subscription } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Expense } from './expense.model';
-import { WalletService } from './wallet.service';
+import { Loan } from './shared/Loan';
+import { WalletService } from './shared/wallet.service';
 import { AuthService, SocialUser } from 'angularx-social-login';
-import { Wallet } from './wallet.model';
-import { AppComponent } from '../app.component';
+import { Wallet } from './shared/wallet.model';
+import { AppComponent } from './app.component';
 import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
-export class ExpenseService {
+export class LoanService {
 
   httpOptions: { headers: HttpHeaders };
-  private expenses: Expense[] = [];
-  expensesSubject: Subject<Expense[]> = new Subject<Expense[]>();
+  private accounts: Loan[] = [];
+  accountsSubject: Subject<Loan[]> = new Subject<Loan[]>();
   authSub: Subscription;
 
   constructor(private http: HttpClient, private authService: AuthService, private walletService: WalletService) {
@@ -36,10 +37,10 @@ export class ExpenseService {
     );
   }
 
-  post(expense: Expense): Observable<Expense> {
-    return this.http.post<Expense>(AppComponent.apiBaseUrl + 'accounts/' + expense.accountId, expense, this.httpOptions)
+  post(account: Loan): Observable<Loan[]> {
+    return this.http.post<Loan[]>(AppComponent.apiBaseUrl + 'loans', account, this.httpOptions)
       .pipe(map(
-        (exp: Expense) => exp
+        (accounts: Loan[]) => accounts
         )
       );
   }

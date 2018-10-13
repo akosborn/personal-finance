@@ -3,12 +3,12 @@ export class Expense {
   date: Date;
   description: string;
   amount: number;
-  account: Account;
+  accountId: number;
 
-  constructor(date: Date, description: string, amount: number, account: Account) {
+  constructor(date: Date, description: string, amount: number, accountId: number) {
     this.date = date;
     this.description = description;
     this.amount = amount;
-    this.account = account;
+    this.accountId = accountId;
   }
 }
