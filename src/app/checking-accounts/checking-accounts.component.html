@@ -9,6 +9,7 @@
             <th scope="col">NAME</th>
             <th scope="col">DESCRIPTION</th>
             <th scope="col">BALANCE</th>
+            <th scope="col"></th>
           </tr>
         </thead>
         <tbody>
@@ -16,6 +17,10 @@
             <th scope="row">{{ account.name}}</th>
             <td>{{ account.description }}</td>
             <td>{{ account.balance | currency:'USD'}}</td>
+            <td>
+              <button class="btn btn-danger"
+                        (click)="onDeleteAccount(account.id)">Delete</button>
+            </td>
           </tr>
         </tbody>
         <thead class="thead-light">
@@ -23,12 +28,13 @@
             <th scope="col"></th>
             <th scope="col">TOTAL</th>
             <th scope="col">{{ checkingAccounts | sum:'balance' | currency:'USD' }}</th>
+            <th scope="col"></th>
           </tr>
         </thead>
       </table>
     </div>
     <div class="col-12">
-      <form [formGroup]="accountFormGroup" (submit)="onSubmit()">
+      <form [formGroup]="accountFormGroup" (submit)="onAddAccount()">
         <div class="form-row">
           <div class="col-md-6 mb-3">
             <label for="name">Bank</label>

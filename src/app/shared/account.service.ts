@@ -38,4 +38,11 @@ export class AccountService {
         )
       );
   }
+
+  delete(id: number): Observable<String> {
+    return this.http.delete(AppComponent.apiBaseUrl + 'accounts/' + id, this.httpOptions)
+      .pipe(map(
+        (response: any) => response
+      ));
+  }
 }

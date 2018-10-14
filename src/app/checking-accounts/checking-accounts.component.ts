@@ -21,7 +21,7 @@ export class CheckingAccountsComponent implements OnInit, OnDestroy {
 
   constructor(private walletService: WalletService,
               private activatedRoute: ActivatedRoute,
-              private checkingService: AccountService) { }
+              private accountService: AccountService) { }
 
   ngOnInit() {
     // check if wallet initialized
@@ -46,15 +46,27 @@ export class CheckingAccountsComponent implements OnInit, OnDestroy {
     });
   }
 
-  onSubmit() {
+  onAddAccount() {
     const account: CheckingAccount = new CheckingAccount(this.accountFormGroup.value);
-    this.checkingService.post(account).subscribe(
+    this.accountService.post(account).subscribe(
       (acct: CheckingAccount) => {
         this.wallet.checkingAccounts.push(acct);
         this.walletService.walletSubject.next(this.wallet);
       }
     );
     this.accountFormGroup.reset();
+  }
+
+  onDeleteAccount(id: number): void {
+    this.accountService.delete(id).subscribe(
+      (suc: any) => {
+        this.checkingAccounts = this.checkingAccounts.filter(acct => acct.id !== id);
+      },
+      (err: any) => {
+        // TODO: - Handle error by displaying message in view
+        console.log(err.message);
+      }
+    );
   }
 
   ngOnDestroy(): void {
