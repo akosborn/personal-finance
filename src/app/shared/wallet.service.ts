@@ -43,21 +43,29 @@ export class WalletService {
       .pipe(map(
         // API returns accounts in a single indiscriminate list
         (response) => {
-          const checkingAccts = response.accounts.filter(
-            acct => acct.type.toLowerCase() === 'checking'
-          );
-          const savingsAccts = response.accounts.filter(
-            acct => acct.type.toLowerCase() === 'savings'
-          );
-          const loans = response.accounts.filter(
-            acct => acct.type.toLowerCase() === 'loan'
-          );
-          const creditCards = response.accounts.filter(
-            acct => acct.type.toLowerCase() === 'credit_card'
-          );
-          const investments = response.accounts.filter(
-            acct => acct.type.toLowerCase() === 'investment'
-          );
+          let checkingAccts = [];
+          let savingsAccts = [];
+          let loans = [];
+          let creditCards = [];
+          let investments = [];
+
+          if (response.accounts) {
+            checkingAccts = response.accounts.filter(
+              acct => acct.type === 'CHECKING'
+            );
+            savingsAccts = response.accounts.filter(
+              acct => acct.type === 'SAVINGS'
+            );
+            loans = response.accounts.filter(
+              acct => acct.type === 'LOAN'
+            );
+            creditCards = response.accounts.filter(
+              acct => acct.type === 'CREDIT_CARD'
+            );
+            investments = response.accounts.filter(
+              acct => acct.type === 'INVESTMENT'
+            );
+          }
           return new Wallet(
             response.id, response.userId, response.name, response.description,
             checkingAccts, savingsAccts, loans, creditCards, investments);

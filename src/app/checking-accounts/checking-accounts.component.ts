@@ -5,7 +5,7 @@ import { Subscription } from 'rxjs';
 import { Wallet } from '../shared/wallet.model';
 import { ActivatedRoute } from '@angular/router';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { CheckingService } from '../checking.service';
+import { AccountService } from '../shared/account.service';
 
 @Component({
   selector: 'app-checking-accounts',
@@ -21,7 +21,7 @@ export class CheckingAccountsComponent implements OnInit, OnDestroy {
 
   constructor(private walletService: WalletService,
               private activatedRoute: ActivatedRoute,
-              private checkingService: CheckingService) { }
+              private checkingService: AccountService) { }
 
   ngOnInit() {
     // check if wallet initialized
@@ -47,10 +47,10 @@ export class CheckingAccountsComponent implements OnInit, OnDestroy {
   }
 
   onSubmit() {
-    const account: CheckingAccount = this.accountFormGroup.value;
+    const account: CheckingAccount = new CheckingAccount(this.accountFormGroup.value);
     this.checkingService.post(account).subscribe(
-      (accounts: CheckingAccount[]) => {
-        this.wallet.checkingAccounts = accounts;
+      (acct: CheckingAccount) => {
+        this.wallet.checkingAccounts.push(acct);
         this.walletService.walletSubject.next(this.wallet);
       }
     );
