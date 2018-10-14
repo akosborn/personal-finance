@@ -20,7 +20,7 @@ export class WalletService {
         if (user) {
           this.httpOptions = {
             headers: new HttpHeaders({
-              'Authorization': user ? user.tokenId : ''
+              'Authorization': user.tokenId
             })
           };
           // Push updated wallet
@@ -34,18 +34,34 @@ export class WalletService {
     this.walletSubject.subscribe(
       (wallet: Wallet) => {
         this.wallet = wallet;
-        console.log(this.wallet);
       }
     );
   }
 
   loadWallet(): Observable<Wallet> {
-    return this.http.get<Wallet>(AppComponent.apiBaseUrl + 'wallet', this.httpOptions)
+    return this.http.get<any>(AppComponent.apiBaseUrl + 'wallet', this.httpOptions)
       .pipe(map(
-        (data: Wallet) =>
-          new Wallet(
-            data.id, data.userId, data.name, data.description, data.checkingAccounts, data.savingsAccounts,
-            data.loans, data.creditCards, data.investments)
+        // API returns accounts in a single indiscriminate list
+        (response) => {
+          const checkingAccts = response.accounts.filter(
+            acct => acct.type.toLowerCase() === 'checking'
+          );
+          const savingsAccts = response.accounts.filter(
+            acct => acct.type.toLowerCase() === 'savings'
+          );
+          const loans = response.accounts.filter(
+            acct => acct.type.toLowerCase() === 'loan'
+          );
+          const creditCards = response.accounts.filter(
+            acct => acct.type.toLowerCase() === 'credit_card'
+          );
+          const investments = response.accounts.filter(
+            acct => acct.type.toLowerCase() === 'investment'
+          );
+          return new Wallet(
+            response.id, response.userId, response.name, response.description,
+            checkingAccts, savingsAccts, loans, creditCards, investments);
+        }
       ));
   }
 

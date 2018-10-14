@@ -1,9 +1,8 @@
-import {Component, HostListener, OnDestroy, OnInit} from '@angular/core';
-import {SideNavToggleService} from '../shared/side-nav-toggle.service';
-import {Wallet} from '../shared/wallet.model';
-import {WalletService} from '../shared/wallet.service';
-import {Subscription} from 'rxjs';
-import { AuthService, SocialUser } from 'angularx-social-login';
+import { Component, HostListener, OnInit } from '@angular/core';
+import { SideNavToggleService } from '../shared/side-nav-toggle.service';
+import { Wallet } from '../shared/wallet.model';
+import { WalletService } from '../shared/wallet.service';
+import { AuthService } from 'angularx-social-login';
 
 @Component({
   selector: 'app-side-nav',

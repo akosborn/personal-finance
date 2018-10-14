@@ -29,10 +29,6 @@ export class CreditCardService {
               'Authorization': user ? user.tokenId : ''
             })
           };
-          // Push updated wallet
-          this.walletService.loadWallet().subscribe(
-            (wallet: Wallet) => this.walletService.walletSubject.next(wallet)
-          );
         }
       }
     );
