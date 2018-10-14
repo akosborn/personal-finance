@@ -32,6 +32,11 @@ export class TransactionsComponent implements OnInit {
           this.wallet = wallet;
         });
 
+    this.expenses = this.expenseService.getExpenses();
+    this.expenseService.expensesSubject.subscribe(
+      (expenses: Expense[]) => this.expenses = expenses
+    );
+
     this.expenseFormGroup = new FormGroup({
       description: new FormControl(null, [Validators.maxLength(100)]),
       amount: new FormControl(null, Validators.required),
@@ -41,12 +46,11 @@ export class TransactionsComponent implements OnInit {
 
   onSubmit(): void {
     const expense = this.expenseFormGroup.value;
-    console.log(expense);
     this.expenseService.post(expense)
       .subscribe(
         (exp: Expense) => {
-          console.log('Saved expense: ' + exp);
           this.expenses.push(exp);
+          this.walletService.refreshWallet();
         }
       );
   }

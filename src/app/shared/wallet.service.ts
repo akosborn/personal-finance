@@ -38,6 +38,12 @@ export class WalletService {
     );
   }
 
+  refreshWallet(): void {
+    this.loadWallet().subscribe(
+      (wallet: Wallet) => this.walletSubject.next(wallet)
+    );
+  }
+
   loadWallet(): Observable<Wallet> {
     return this.http.get<any>(AppComponent.apiBaseUrl + 'wallet', this.httpOptions)
       .pipe(map(

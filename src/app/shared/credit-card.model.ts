@@ -1,4 +1,5 @@
 import { AccountModel } from './account.model';
+import { Expense } from './expense.model';
 
 export class CreditCard implements AccountModel {
   balance: number;
@@ -8,4 +9,6 @@ export class CreditCard implements AccountModel {
   limitAmt: number;
   minPayment: number;
   interestRate: number;
+  expenses: Expense[];
+  type: string;
 }

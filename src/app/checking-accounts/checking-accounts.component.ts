@@ -59,8 +59,11 @@ export class CheckingAccountsComponent implements OnInit, OnDestroy {
 
   onDeleteAccount(id: number): void {
     this.accountService.delete(id).subscribe(
-      (suc: any) => {
+      (succ: any) => {
         this.checkingAccounts = this.checkingAccounts.filter(acct => acct.id !== id);
+        this.walletService.loadWallet().subscribe(
+          (wallet: Wallet) => this.walletService.walletSubject.next(wallet)
+        );
       },
       (err: any) => {
         // TODO: - Handle error by displaying message in view

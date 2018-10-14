@@ -44,7 +44,7 @@ export class SavingsAccountsComponent implements OnInit, OnDestroy {
   }
 
   onSubmit() {
-    const account: SavingsAccount = this.accountFormGroup.value;
+    const account: SavingsAccount = new SavingsAccount(this.accountFormGroup.value);
     this.savingsService.post(account).subscribe(
       (accounts: SavingsAccount[]) => {
         this.wallet.savingsAccounts = accounts;
