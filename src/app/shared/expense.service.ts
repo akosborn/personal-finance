@@ -32,16 +32,21 @@ export class ExpenseService {
     );
     this.walletService.walletSubject.subscribe(
       (wallet: Wallet) => {
-        this.expenses = [];
-        wallet.checkingAccounts.forEach(
-          acct => {
-            this.expenses.push(...acct.expenses);
-            this.expensesSubject.next(this.expenses);
-          }
-        );
-        //  TODO: - Add other accounts' expenses to array
+        this.expenses = this.expensesToArray(wallet);
+        this.expensesSubject.next(this.expenses);
       }
     );
+  }
+
+  private expensesToArray(wallet: Wallet): Expense[] {
+    const expenses = [];
+    wallet.checkingAccounts.forEach(acct => { expenses.push(...acct.expenses); });
+    wallet.creditCards.forEach(acct => { expenses.push(...acct.expenses); });
+    wallet.loans.forEach(acct => { expenses.push(...acct.expenses); });
+    wallet.savingsAccounts.forEach(acct => { expenses.push(...acct.expenses); });
+    wallet.investments.forEach(acct => { expenses.push(...acct.expenses); });
+
+    return expenses;
   }
 
   getExpenses(): Expense[] {
@@ -54,5 +59,12 @@ export class ExpenseService {
         (exp: Expense) => exp
         )
       );
+  }
+
+  delete(expense: Expense): Observable<string> {
+    return this.http.delete(AppComponent.apiBaseUrl + 'accounts/' + expense.accountId + '/expenses/' + expense.id, this.httpOptions)
+      .pipe(map(
+        (response: any) => response
+      ));
   }
 }

@@ -54,4 +54,18 @@ export class TransactionsComponent implements OnInit {
         }
       );
   }
+
+  onDeleteExpense(expense: Expense) {
+    this.expenseService.delete(expense).subscribe(
+      (succ: any) => {
+        this.walletService.loadWallet().subscribe(
+          (wallet: Wallet) => this.walletService.walletSubject.next(wallet)
+        );
+      },
+      (err: any) => {
+        // TODO: - Handle error by displaying message in view
+        console.log(err.message);
+      }
+    );
+  }
 }

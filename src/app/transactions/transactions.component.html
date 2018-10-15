@@ -10,6 +10,7 @@
             <th scope="col">CATEGORY</th>
             <th scope="col">DESCRIPTION</th>
             <th scope="col">AMOUNT</th>
+            <th scope="col"></th>
           </tr>
         </thead>
         <tbody>
@@ -18,6 +19,10 @@
             <td></td>
             <td>{{ expense.description }}</td>
             <td>{{ expense.amount | currency:'USD'}}</td>
+            <td>
+              <button class="btn btn-danger"
+                      (click)="onDeleteExpense(expense)">Delete</button>
+            </td>
           </tr>
         </tbody>
         <thead class="thead-light">
@@ -26,6 +31,7 @@
             <th scope="col"></th>
             <th scope="col">TOTAL</th>
             <th scope="col">{{ expenses | sum:'amount' | currency:'USD' }}</th>
+            <th scope="col"></th>
           </tr>
         </thead>
       </table>

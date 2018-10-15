@@ -39,7 +39,7 @@ export class AccountService {
       );
   }
 
-  delete(id: number): Observable<String> {
+  delete(id: number): Observable<string> {
     return this.http.delete(AppComponent.apiBaseUrl + 'accounts/' + id, this.httpOptions)
       .pipe(map(
         (response: any) => response
