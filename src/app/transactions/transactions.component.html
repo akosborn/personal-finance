@@ -7,6 +7,7 @@
         <thead class="thead-light">
           <tr>
             <th scope="col">DATE</th>
+            <th scope="col">ACCOUNT</th>
             <th scope="col">CATEGORY</th>
             <th scope="col">DESCRIPTION</th>
             <th scope="col">AMOUNT</th>
@@ -16,6 +17,7 @@
         <tbody>
           <tr *ngFor="let expense of expenses">
             <th scope="row">{{ expense.date | date:'mediumDate' }}</th>
+            <td>{{ expense.account.name }}</td>
             <td></td>
             <td>{{ expense.description }}</td>
             <td>{{ expense.amount | currency:'USD'}}</td>
@@ -32,6 +34,7 @@
             <th scope="col">TOTAL</th>
             <th scope="col">{{ expenses | sum:'amount' | currency:'USD' }}</th>
             <th scope="col"></th>
+            <th scope="col"></th>
           </tr>
         </thead>
       </table>
@@ -42,9 +45,11 @@
     <form [formGroup]="expenseFormGroup" (submit)="onSubmit()">
       <div class="form-row">
 
-        <div class="col-md-2 mb-3">
+        <div class="col-md-2 mb-3" formGroupName="account">
           <label for="account">Account</label>
-          <select id="account" class="form-control" formControlName="accountId">
+          <select id="account"
+                  class="form-control"
+                  formControlName="id">
             <option *ngFor="let account of wallet.checkingAccounts"
                     [value]="account.id">{{ account.name }}</option>
           </select>

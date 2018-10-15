@@ -40,17 +40,22 @@ export class TransactionsComponent implements OnInit {
     this.expenseFormGroup = new FormGroup({
       description: new FormControl(null, [Validators.maxLength(100)]),
       amount: new FormControl(null, Validators.required),
-      accountId: new FormControl(null, Validators.required)
+      account: new FormGroup({
+        id: new FormControl(null, Validators.required)
+      })
     });
   }
 
   onSubmit(): void {
-    const expense = this.expenseFormGroup.value;
-    this.expenseService.post(expense)
+    const acctId = this.expenseFormGroup.get('account').value.id;
+    const expense = new Expense(this.expenseFormGroup.value);
+    expense.account = null;
+    this.expenseService.post(expense, acctId)
       .subscribe(
         (exp: Expense) => {
           this.expenses.push(exp);
           this.walletService.refreshWallet();
+          this.expenseFormGroup.reset();
         }
       );
   }

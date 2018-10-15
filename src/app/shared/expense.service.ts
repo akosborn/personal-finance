@@ -53,8 +53,8 @@ export class ExpenseService {
     return this.expenses;
   }
 
-  post(expense: Expense): Observable<Expense> {
-    return this.http.post<Expense>(AppComponent.apiBaseUrl + 'accounts/' + expense.accountId, expense, this.httpOptions)
+  post(expense: Expense, acctId: number): Observable<Expense> {
+    return this.http.post<Expense>(AppComponent.apiBaseUrl + 'accounts/' + acctId + '/expenses', expense, this.httpOptions)
       .pipe(map(
         (exp: Expense) => exp
         )
@@ -62,7 +62,7 @@ export class ExpenseService {
   }
 
   delete(expense: Expense): Observable<string> {
-    return this.http.delete(AppComponent.apiBaseUrl + 'accounts/' + expense.accountId + '/expenses/' + expense.id, this.httpOptions)
+    return this.http.delete(AppComponent.apiBaseUrl + 'accounts/' + expense.account.id + '/expenses/' + expense.id, this.httpOptions)
       .pipe(map(
         (response: any) => response
       ));
