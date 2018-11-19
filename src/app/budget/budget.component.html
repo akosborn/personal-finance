@@ -1,0 +1,86 @@
+<div class="justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
+  <h1 class="h2 border-bottom">Budget</h1>
+  <div class="row no-gutters border-bottom mb-4">
+    <hr>
+    <div class="col-12 col-md-4" style="text-align: center">
+      <h2>{{ grossIncome | currency:'USD' }}</h2>
+      <p><b>GROSS</b> INCOME</p>
+    </div>
+    <div class="col-12 col-md-4 border-left border-right" style="text-align: center">
+      <h2>{{ tax | currency:'USD' }}</h2>
+      <p style="text-align: center"><b>TAX</b> TOTAL</p>
+    </div>
+    <div class="col-12 col-md-4" style="text-align: center">
+      <h2>{{ netIncome | currency:'USD' }}</h2>
+      <p style="text-align: center"><b>NET</b> INCOME</p>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-12 col-md-9 col-xl-8">
+      <h5>Budget</h5>
+      <table class="table">
+        <thead class="thead-light">
+        <tr>
+          <th scope="col">CATEGORY</th>
+          <th scope="col">AMOUNT</th>
+          <th scope="col">%</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let item of budgetItems">
+          <th scope="row">{{ item.category }}</th>
+          <td>{{ monthlyNetIncome * item.fraction | currency:'USD' }}</td>
+          <td>{{ item.fraction | percent }}</td>
+        </tr>
+        </tbody>
+        <thead class="thead-light">
+        <tr>
+          <th scope="col">TOTAL</th>
+          <th scope="col">{{ ((budgetItems | sum:'fraction') * monthlyNetIncome) | currency:'USD' }}</th>
+          <th scope="col">{{ (budgetItems | sum:'fraction') | percent }}</th>
+        </tr>
+        </thead>
+      </table>
+    </div>
+    <div class="col-12 col-md-3 col-xl-4 justify-content-center">
+      <div style="display: block">
+        <canvas baseChart
+                [data]="pieChartData"
+                [labels]="pieChartLabels"
+                [chartType]="pieChartType"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-4">
+      <h5>Recurring Monthly Expenses</h5>
+      <table class="table">
+        <thead class="thead-light">
+        <tr>
+          <th scope="col">CATEGORY</th>
+          <th scope="col">DESCRIPTION</th>
+          <th scope="col">AMOUNT</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let expense of expenses">
+          <th scope="row">{{ expense.category}}</th>
+          <td>{{ expense.description }}</td>
+          <td>{{ expense.amount | currency:'USD' }}</td>
+        </tr>
+        </tbody>
+        <thead class="thead-light">
+        <tr>
+          <th scope="col"></th>
+          <th scope="col">TOTAL</th>
+          <th scope="col">{{ expenses | sum:'amount' | currency:'USD' }}</th>
+        </tr>
+        </thead>
+      </table>
+    </div>
+  </div>
+
+</div>
+

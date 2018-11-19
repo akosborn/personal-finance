@@ -23,6 +23,7 @@ import { AuthServiceConfig, GoogleLoginProvider, SocialLoginModule } from 'angul
 import { LoginComponent } from './login/login.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ChartsModule } from 'ng2-charts';
+import { BudgetComponent } from './budget/budget.component';
 
 const config = new AuthServiceConfig([
   {
@@ -50,6 +51,7 @@ export function provideConfig() {
     InvestmentsComponent,
     LoansComponent,
     LoginComponent,
+    BudgetComponent,
   ],
   imports: [
     BrowserModule,
