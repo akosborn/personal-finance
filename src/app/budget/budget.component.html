@@ -18,7 +18,8 @@
 
   <div class="row">
     <div class="col-12 col-md-9 col-xl-8">
-      <h5>Budget</h5>
+      <h5 class="d-inline">Budget</h5>
+      <input class="align-bottom float-right" style="outline: none;" type="image" src="assets/images/baseline-add-24px.svg">
       <table class="table">
         <thead class="thead-light">
         <tr>
@@ -54,8 +55,9 @@
   </div>
 
   <div class="row">
-    <div class="col-4">
-      <h5>Recurring Monthly Expenses</h5>
+    <div class="col-5">
+      <h5 class="d-inline">Recurring Monthly Expenses</h5>
+      <input class="align-bottom float-right" style="outline: none;" type="image" src="assets/images/baseline-add-24px.svg">
       <table class="table">
         <thead class="thead-light">
         <tr>
@@ -79,7 +81,42 @@
         </tr>
         </thead>
       </table>
+
+      <form [formGroup]="recurringExpFormGroup" (submit)="onAddRecurringExpense()">
+        <div class="form-row">
+          <div class="col-md-4 mb-3">
+            <label for="category">Category</label>
+            <select id="category" class="form-control" formControlName="category">
+              <option *ngFor="let category of categories" value="{{ category }}">{{ category }}</option>
+            </select>
+          </div>
+
+          <div class="col-md-5 mb-3">
+            <label for="description">Description</label>
+            <input type="text" class="form-control" id="description" placeholder="Description"
+                   formControlName="description">
+          </div>
+
+          <div class="col-md-3 mb-3">
+            <label for="amount">Amount</label>
+            <div class="input-group">
+              <div class="input-group-prepend">
+                <div class="input-group-text">$</div>
+              </div>
+              <input type="number" class="form-control" id="amount" placeholder="Amount"
+                     formControlName="amount">
+            </div>
+          </div>
+
+          <button type="submit"
+                  class="btn btn-primary mb-2">Add</button>
+        </div>
+      </form>
     </div>
+  </div>
+
+  <div class="row">
+
   </div>
 
 </div>
