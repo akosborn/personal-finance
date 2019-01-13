@@ -75,8 +75,8 @@ export class BudgetService {
   }
 
   // Deletes a single BudgetItem from a Budget
-  delete(item: BudgetItem): Observable<string> {
-    return this.http.delete(AppComponent.apiBaseUrl + 'budget/' + item.budgetId + '/items/' + item.id, this.httpOptions)
+  delete(budgetId: number, itemId: number): Observable<string> {
+    return this.http.delete(AppComponent.apiBaseUrl + 'budget/' + budgetId + '/items/' + itemId, this.httpOptions)
       .pipe(map(
         (response: any) => response
       ));

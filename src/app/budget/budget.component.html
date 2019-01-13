@@ -16,16 +16,17 @@
     </div>
   </div>
 
-  <div class="row">
+  <div class="row" *ngIf="budget">
     <div class="col-12 col-md-9 col-xl-8">
       <h5 class="d-inline">Budget</h5>
       <input class="align-bottom float-right" style="outline: none;" type="image" src="assets/images/baseline-add-24px.svg">
-      <table class="table">
+      <table class="table" *ngIf="budget.items">
         <thead class="thead-light">
         <tr>
           <th scope="col">CATEGORY</th>
           <th scope="col">AMOUNT</th>
           <th scope="col">%</th>
+          <th scope="col"></th>
         </tr>
         </thead>
         <tbody>
@@ -33,6 +34,10 @@
           <th scope="row">{{ item.category }}</th>
           <td>{{ item.amount | currency:'USD' }}</td>
           <td>{{ item.amount / monthlyNetIncome | percent }}</td>
+          <td>
+            <button class="btn btn-danger"
+                    (click)="onDeleteItem(item.id)">Delete</button>
+          </td>
         </tr>
         </tbody>
         <thead class="thead-light">
@@ -40,6 +45,7 @@
           <th scope="col">TOTAL</th>
           <th scope="col">{{ (budget.items | sum:'amount') | currency:'USD' }}</th>
           <th scope="col">{{ ((budget.items | sum:'amount') / monthlyNetIncome) | percent }}</th>
+          <th scope="col"></th>
         </tr>
         </thead>
       </table>
@@ -79,7 +85,9 @@
         <canvas baseChart
                 [data]="pieChartData"
                 [labels]="pieChartLabels"
-                [chartType]="pieChartType"></canvas>
+                [chartType]="pieChartType"
+                [options]="pieChartOptions"
+        ></canvas>
       </div>
     </div>
   </div>

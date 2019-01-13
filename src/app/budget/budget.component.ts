@@ -48,44 +48,27 @@ export class BudgetComponent implements OnInit {
   public pieChartLabels: string[] = [];
   public pieChartData: number[] = [];
   public pieChartType = 'doughnut';
+  public pieChartOptions: any =
+    {
+      legend:
+        {
+          position: 'right'
+        }
+    };
 
   constructor(private budgetService: BudgetService, private walletService: WalletService) {
-    // this.expenses.push(new Expense({category: 'Debt Repayment', description: 'Citi', amount: 25}));
-    // this.expenses.push(new Expense({category: 'Debt Repayment', description: 'Discover Personal', amount: 183}));
-    // this.expenses.push(new Expense({category: 'Debt Repayment', description: 'Discover Student', amount: 50}));
-    // this.expenses.push(new Expense({category: 'Debt Repayment', description: 'Great Lakes Student', amount: 233}));
-    // this.budgetItems.push(
-    //   {
-    //     category: 'DEBT',
-    //     fraction: 0.26
-    //   });
-    // this.budgetItems.push(
-    //   {
-    //     category: 'GROCERIES',
-    //     fraction: 0.0458
-    //   });
-    // this.budgetItems.push(
-    //   {
-    //     category: 'EATING OUT',
-    //     fraction: 0.0458
-    //   });
-    // this.budgetItems.forEach(
-    //   item => {
-    //     this.pieChartLabels.push(item.category);
-    //     this.pieChartData.push(item.fraction * 100);
-    //   }
-    // );
   }
 
   ngOnInit() {
     this.budgetService.loadBudget().subscribe(
       (budget: Budget) => {
-        console.log(budget);
         this.budget = budget;
+        this.updateChart(this.budget.items);
       });
     this.budgetService.budgetSubject.subscribe(
       (budget: Budget) => {
         this.budget = budget;
+        this.updateChart(this.budget.items);
       });
     this.recurringExpFormGroup = new FormGroup({
       category: new FormControl(null, [Validators.required]),
@@ -99,6 +82,31 @@ export class BudgetComponent implements OnInit {
     });
   }
 
+  updateChart(items: BudgetItem[]) {
+    this.pieChartData = [];
+    this.pieChartLabels = [];
+    this.getChartMap(items).forEach(
+      (amount: number, category: string) => {
+        this.pieChartLabels.push(category);
+        this.pieChartData.push(amount);
+      }
+    )
+  }
+
+  getChartMap(items: BudgetItem[]): Map<string, number> {
+    const budgetMap: Map<string, number> = new Map<string, number>();
+    for (const item of items) {
+      if (budgetMap.get(item.category)) {
+        // Sum items for each category
+        budgetMap.set(item.category, budgetMap.get(item.category) + item.amount);
+      } else {
+        // Put new category in map
+        budgetMap.set(item.category, item.amount);
+      }
+    }
+    return budgetMap;
+  }
+
   onAddRecurringExpense() {
     const expense: Expense = new Expense(this.recurringExpFormGroup.value);
     this.expenses.push(expense);
@@ -106,15 +114,35 @@ export class BudgetComponent implements OnInit {
     this.recurringExpFormGroup.reset();
   }
 
-  onAddBudgetItem() {
-    console.log(this.budgetItemFormGroup);
+  onAddBudgetItem(): void {
     const item: BudgetItem = new BudgetItem(this.budgetItemFormGroup.value);
     this.budgetService.post(item, this.budget.id).subscribe(
       (budgItem: BudgetItem) => {
         this.budget.items.push(budgItem);
         this.budgetItems = [...this.budgetItems]; // TODO: Consider making sum pipe impure instead of triggering it via deep copy
+        this.updateChart(this.budget.items);
       }
     );
     this.budgetItemFormGroup.reset();
+  }
+
+  onDeleteItem(itemId: number): void {
+    this.budgetService.delete(this.budget.id, itemId).subscribe(
+      (succ: any) => {
+        console.log(succ);
+        this.budgetService.loadBudget().subscribe(
+          (budget: Budget) => {
+            this.budgetService.budgetSubject.next(budget);
+          }
+        );
+        this.walletService.loadWallet().subscribe(
+          (wallet: Wallet) => this.walletService.walletSubject.next(wallet)
+        );
+      },
+      (err: any) => {
+        // TODO: - Handle error by displaying message in view
+        console.log(err.message);
+      }
+    );
   }
 }
