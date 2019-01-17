@@ -53,7 +53,7 @@ export class BudgetService {
             it.description = item.description;
             items.push(it);
           }
-          return new Budget(response.id, response.user.id, items);
+          return new Budget(response.id, response.user.id, items, response.fixedExpenses);
         }
       ));
   }

@@ -9,5 +9,10 @@ export class Loan implements AccountModel {
   minPayment: number;
   interestRate: number;
   expenses: Expense[];
-  type: string;
+  type = 'LOAN';
+  dueDay: number;
+
+  constructor(init?: Partial<Loan>) {
+    Object.assign(this, init);
+  }
 }

@@ -6,6 +6,8 @@ import {Wallet} from '../shared/wallet.model';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { LoanService } from '../loan.service';
 import { CreditCard } from '../shared/credit-card.model';
+import { AccountService } from '../shared/account.service';
+import { AccountModel } from '../shared/account.model';
 
 @Component({
   selector: 'app-loans',
@@ -20,7 +22,7 @@ export class LoansComponent implements OnInit {
   accountFormGroup: FormGroup;
 
   constructor(private walletService: WalletService,
-              private loanService: LoanService ) { }
+              private acctService: AccountService) { }
 
   ngOnInit() {
     if (this.walletService.getWallet()) {
@@ -44,10 +46,12 @@ export class LoansComponent implements OnInit {
   }
 
   onSubmit() {
-    const account: Loan = this.accountFormGroup.value;
-    this.loanService.post(account).subscribe(
-      (accounts: Loan[]) => {
-        this.wallet.loans = accounts;
+    const account: Loan = new Loan(this.accountFormGroup.value);
+    account.dueDay = 5;
+    this.acctService.post(account).subscribe(
+      (acct: Loan) => {
+        this.wallet.loans.push(acct);
+        this.wallet.loans = [...this.wallet.loans];
         this.walletService.walletSubject.next(this.wallet);
       }
     );

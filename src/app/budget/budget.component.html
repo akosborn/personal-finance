@@ -92,9 +92,9 @@
     </div>
   </div>
 
-  <div class="row">
+  <div class="row" *ngIf="budget">
     <div class="col-5">
-      <h5 class="d-inline">Recurring Monthly Expenses</h5>
+      <h5 class="d-inline">Fixed Monthly Expenses</h5>
       <input class="align-bottom float-right" style="outline: none;" type="image" src="assets/images/baseline-add-24px.svg">
       <table class="table">
         <thead class="thead-light">
@@ -105,8 +105,8 @@
         </tr>
         </thead>
         <tbody>
-        <tr *ngFor="let expense of expenses">
-          <th scope="row">{{ expense.category}}</th>
+        <tr *ngFor="let expense of budget.fixedExpenses">
+          <th scope="row">{{ expense.category.name }}</th>
           <td>{{ expense.description }}</td>
           <td>{{ expense.amount | currency:'USD' }}</td>
         </tr>
@@ -115,12 +115,12 @@
         <tr>
           <th scope="col"></th>
           <th scope="col">TOTAL</th>
-          <th scope="col">{{ expenses | sum:'amount' | currency:'USD' }}</th>
+          <th scope="col">{{ budget.fixedExpenses | sum:'amount' | currency:'USD' }}</th>
         </tr>
         </thead>
       </table>
 
-      <form [formGroup]="recurringExpFormGroup" (submit)="onAddRecurringExpense()">
+      <form [formGroup]="fixedExpFormGroup" (submit)="onAddFixedExpense()">
         <div class="form-row">
           <div class="col-md-4 mb-3">
             <label for="category">Category</label>
@@ -146,9 +146,16 @@
             </div>
           </div>
 
-          <button type="submit"
-                  class="btn btn-primary mb-2">Add</button>
+          <div class="col-md-4 mb-3">
+            <label for="accountId">From Account</label>
+            <select id="accountId" class="form-control">
+              <option *ngFor="let account of wallet.checkingAccounts" value="{{ account.id }}">{{ account.name }}</option>
+            </select>
+          </div>
+
         </div>
+        <button type="submit"
+                class="btn btn-primary mb-2">Add</button>
       </form>
     </div>
   </div>

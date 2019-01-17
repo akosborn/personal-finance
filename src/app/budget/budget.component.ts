@@ -27,22 +27,21 @@ export class BudgetComponent implements OnInit {
   expenses: Expense[] = [];
   budget: Budget;
   budgetItems = [];
+  itemsByCategory: Map<string, BudgetItem[]>;
 
-  recurringExpFormGroup: FormGroup;
+  fixedExpFormGroup: FormGroup;
   budgetItemFormGroup: FormGroup;
   categories = [
     'Debt Repayment',
     'Emergency Fund',
-    'Food and Drinks',
-    'Groceries',
-    'Internet',
+    'Food',
+    'Housing',
     'Investing',
-    'Rent',
     'Savings',
     'Transportation',
-    'Utilities',
     'Wants'
   ];
+  fixedExpenses: Expense[];
 
   // Pie
   public pieChartLabels: string[] = [];
@@ -64,13 +63,16 @@ export class BudgetComponent implements OnInit {
       (budget: Budget) => {
         this.budget = budget;
         this.updateChart(this.budget.items);
+         this.itemsByCategory = this.getBudgetItemsByCatgeory(this.budget.items);
       });
-    this.budgetService.budgetSubject.subscribe(
+    this.walletSubscription = this.budgetService.budgetSubject.subscribe(
       (budget: Budget) => {
         this.budget = budget;
         this.updateChart(this.budget.items);
       });
-    this.recurringExpFormGroup = new FormGroup({
+    this.wallet = this.walletService.getWallet();
+    this.walletService.walletSubject.subscribe((wallet: Wallet) => this.wallet = wallet);
+    this.fixedExpFormGroup = new FormGroup({
       category: new FormControl(null, [Validators.required]),
       description: new FormControl(null, [Validators.maxLength(100)]),
       amount: new FormControl(null, Validators.required)
@@ -82,6 +84,18 @@ export class BudgetComponent implements OnInit {
     });
   }
 
+  getBudgetItemsByCatgeory(items: BudgetItem[]): Map<string, BudgetItem[]> {
+    const categoryMap: Map<string, BudgetItem[]> = new Map<string, BudgetItem[]>();
+    for (const item of items) {
+      if (categoryMap.get(item.category)) {
+        categoryMap.get(item.category).push(item); // Add to list
+      } else {
+        categoryMap.set(item.category, [item]); // Put new category in map
+      }
+    }
+    return categoryMap;
+  }
+
   updateChart(items: BudgetItem[]) {
     this.pieChartData = [];
     this.pieChartLabels = [];
@@ -90,7 +104,7 @@ export class BudgetComponent implements OnInit {
         this.pieChartLabels.push(category);
         this.pieChartData.push(amount);
       }
-    )
+    );
   }
 
   getChartMap(items: BudgetItem[]): Map<string, number> {
@@ -107,11 +121,11 @@ export class BudgetComponent implements OnInit {
     return budgetMap;
   }
 
-  onAddRecurringExpense() {
-    const expense: Expense = new Expense(this.recurringExpFormGroup.value);
+  onAddFixedExpense() {
+    const expense: Expense = new Expense(this.fixedExpFormGroup.value);
     this.expenses.push(expense);
     this.expenses = [...this.expenses]; // TODO: Consider making sum pipe impure instead of triggering it via deep copy
-    this.recurringExpFormGroup.reset();
+    this.fixedExpFormGroup.reset();
   }
 
   onAddBudgetItem(): void {
@@ -141,7 +155,6 @@ export class BudgetComponent implements OnInit {
       },
       (err: any) => {
         // TODO: - Handle error by displaying message in view
-        console.log(err.message);
       }
     );
   }
