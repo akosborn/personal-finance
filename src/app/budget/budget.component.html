@@ -18,7 +18,56 @@
 
   <div class="row" *ngIf="budget">
     <div class="col-12 col-md-9 col-xl-8">
-      <h5 class="d-inline">Budget</h5>
+      <h5 class="d-inline">By Category</h5>
+      <!--<div class="row">-->
+        <!--<div class="col-12">-->
+          <!--<div class="card text-white" style="background-color: #2E3E4E">-->
+            <!--<div class="card-header">-->
+              <!--<div class="row">-->
+                <!--<div class="col-4 font-weight-light">DESCRIPTION</div>-->
+                <!--<div class="col-4 text-center font-weight-light">PERCENT</div>-->
+                <!--<div class="col-4 text-right font-weight-light">AMOUNT</div>-->
+              <!--</div>-->
+            <!--</div>-->
+          <!--</div>-->
+        <!--</div>-->
+      <!--</div>-->
+      <!--<div class="row">-->
+        <!--<div class="col-12" *ngFor="let category of itemsByCategory | keyvalue">-->
+          <!--<div class="card">-->
+            <!--<div class="card-header">-->
+              <!--<div class="row">-->
+                <!--<div class="col-4">{{ category.key }}</div>-->
+                <!--<div class="col-4 text-center">{{ ((category.value | sum:'amount') / monthlyNetIncome) | percent }}</div>-->
+                <!--<div class="col-4 text-right">{{ (category.value | sum:'amount') | currency:'USD' }}</div>-->
+              <!--</div>-->
+            <!--</div>-->
+            <!--<ul class="list-group list-group-flush">-->
+              <!--<li *ngFor="let item of category.value" class="list-group-item">-->
+                <!--<div class="row">-->
+                  <!--<div class="col-4">{{ item.description }}</div>-->
+                  <!--<div class="col-4 text-center">{{ item.amount / monthlyNetIncome | percent }}</div>-->
+                  <!--<div class="col-4 text-right">{{ item.amount | currency:'USD' }}</div>-->
+                <!--</div>-->
+              <!--</li>-->
+            <!--</ul>-->
+          <!--</div>-->
+        <!--</div>-->
+      <!--</div>-->
+      <!--<div class="row">-->
+        <!--<div class="col-12">-->
+          <!--<div class="card text-white" style="background-color: #2E3E4E">-->
+            <!--<div class="card-header">-->
+              <!--<div class="row">-->
+                <!--<div class="col-4 text-right font-weight-light">TOTAL</div>-->
+                <!--<div class="col-4 text-center font-weight-light">{{ ((budget.items | sum:'amount') / monthlyNetIncome) | percent }}</div>-->
+                <!--<div class="col-4 text-right font-weight-light">{{ (budget.items | sum:'amount') | currency:'USD' }}</div>-->
+              <!--</div>-->
+            <!--</div>-->
+          <!--</div>-->
+        <!--</div>-->
+      <!--</div>-->
+
       <input class="align-bottom float-right" style="outline: none;" type="image" src="assets/images/baseline-add-24px.svg">
       <table class="table" *ngIf="budget.items">
         <thead class="thead-light">
@@ -29,16 +78,29 @@
           <th scope="col"></th>
         </tr>
         </thead>
-        <tbody>
-        <tr *ngFor="let item of budget.items">
-          <th scope="row">{{ item.category }}</th>
-          <td>{{ item.amount | currency:'USD' }}</td>
-          <td>{{ item.amount / monthlyNetIncome | percent }}</td>
-          <td>
-            <button class="btn btn-danger"
-                    (click)="onDeleteItem(item.id)">Delete</button>
-          </td>
-        </tr>
+        <tbody *ngFor="let category of itemsByCategory | keyvalue; let i = index">
+          <tr>
+            <td>
+              <input [ngbCollapse]="expandedRows.indexOf('category-' + i) > -1" class="align-top"
+                     type="image" src="assets/images/baseline-expand_more-24px.svg"
+                     (click)="showCategoryRows('category-' + i)">
+              <input [ngbCollapse]="expandedRows.indexOf('category-' + i) === -1" class="align-top"
+                     type="image" src="assets/images/baseline-expand_less-24px.svg"
+                     (click)="hideCategoryRows('category-' + i)">
+              {{ category.key }}
+            </td>
+            <td>{{ (category.value | sum:'amount') | currency:'USD' }}</td>
+            <td>{{ ((category.value | sum:'amount') / monthlyNetIncome) | percent }}</td>
+            <td></td>
+          </tr>
+          <tr *ngFor="let item of category.value" [ngbCollapse]="expandedRows.indexOf('category-' + i) === -1">
+            <td style="padding-left: 4rem">{{ item.description }}</td>
+            <td>{{ item.amount | currency:'USD' }}</td>
+            <td>{{ item.amount / monthlyNetIncome | percent }}</td>
+            <td>
+              <input type="image" class="align-middle" src="assets/images/baseline-remove-24px.svg" (click)="onDeleteItem(item.id)">
+            </td>
+          </tr>
         </tbody>
         <thead class="thead-light">
         <tr>
@@ -49,7 +111,7 @@
         </tr>
         </thead>
       </table>
-      <form [formGroup]="budgetItemFormGroup" (submit)="onAddBudgetItem()">
+      <form [formGroup]="budgetItemFormGroup" (submit)="onAddBudgetItem()" style="display: none;">
         <div class="form-row">
           <div class="col-md-4 mb-3">
             <label for="category">Category</label>

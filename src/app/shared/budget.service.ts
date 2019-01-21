@@ -6,7 +6,7 @@ import { Observable, Subject, Subscription } from 'rxjs';
 import { AppComponent } from '../app.component';
 import { Budget } from './budget.model';
 import { BudgetItem } from './budget-item.model';
-import { Wallet } from './wallet.model';
+import { Expense } from './expense.model';
 
 @Injectable({
   providedIn: 'root'
@@ -80,5 +80,21 @@ export class BudgetService {
       .pipe(map(
         (response: any) => response
       ));
+  }
+
+  postFixedExpense(fixedExpense: Expense, budgetAcctId: number): Observable<Expense> {
+    return this.http.post<Expense>(AppComponent.apiBaseUrl + 'budget/' + budgetAcctId + '/fixed-expense', fixedExpense, this.httpOptions)
+      .pipe(map(
+        (expense: any) => {
+          const it: Expense = new Expense();
+          it.id = expense.id;
+          it.budgetId = expense.budget.id;
+          it.amount = expense.amount;
+          it.category = expense.category.name;
+          it.description = expense.description;
+          return it;
+        }
+        )
+      );
   }
 }

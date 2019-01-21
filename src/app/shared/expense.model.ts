@@ -7,6 +7,7 @@ export class Expense {
   amount: number;
   account: AccountModel;
   category;
+  budgetId: number;
 
   constructor(init?: Partial<Expense>) {
     Object.assign(this, init);

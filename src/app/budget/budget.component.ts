@@ -42,6 +42,7 @@ export class BudgetComponent implements OnInit {
     'Wants'
   ];
   fixedExpenses: Expense[];
+  expandedRows: string[] = [];
 
   // Pie
   public pieChartLabels: string[] = [];
@@ -63,12 +64,13 @@ export class BudgetComponent implements OnInit {
       (budget: Budget) => {
         this.budget = budget;
         this.updateChart(this.budget.items);
-         this.itemsByCategory = this.getBudgetItemsByCatgeory(this.budget.items);
+        this.itemsByCategory = this.getBudgetItemsByCatgeory(this.budget.items);
       });
     this.walletSubscription = this.budgetService.budgetSubject.subscribe(
       (budget: Budget) => {
         this.budget = budget;
         this.updateChart(this.budget.items);
+        this.itemsByCategory = this.getBudgetItemsByCatgeory(this.budget.items);
       });
     this.wallet = this.walletService.getWallet();
     this.walletService.walletSubject.subscribe((wallet: Wallet) => this.wallet = wallet);
@@ -123,8 +125,9 @@ export class BudgetComponent implements OnInit {
 
   onAddFixedExpense() {
     const expense: Expense = new Expense(this.fixedExpFormGroup.value);
-    this.expenses.push(expense);
-    this.expenses = [...this.expenses]; // TODO: Consider making sum pipe impure instead of triggering it via deep copy
+    this.budgetService.postFixedExpense(expense, this.budget.id).subscribe(
+      (exp: Expense) => { this.budgetService.loadBudget(); }
+      );
     this.fixedExpFormGroup.reset();
   }
 
@@ -157,5 +160,13 @@ export class BudgetComponent implements OnInit {
         // TODO: - Handle error by displaying message in view
       }
     );
+  }
+
+  showCategoryRows(id: string) {
+    this.expandedRows.push(id);
+  }
+
+  hideCategoryRows(id: string) {
+    this.expandedRows = this.expandedRows.filter(rowId => rowId !== id);
   }
 }
