@@ -104,7 +104,7 @@
         </tbody>
         <thead class="thead-light">
         <tr>
-          <th scope="col">TOTAL</th>
+          <th scope="col" class="text-right">TOTAL</th>
           <th scope="col">{{ (budget.items | sum:'amount') | currency:'USD' }}</th>
           <th scope="col">{{ ((budget.items | sum:'amount') / monthlyNetIncome) | percent }}</th>
           <th scope="col"></th>
