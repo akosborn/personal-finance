@@ -24,6 +24,7 @@ import { LoginComponent } from './login/login.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ChartsModule } from 'ng2-charts';
 import { BudgetComponent } from './budget/budget.component';
+import { RepaymentComponent } from './repayment/repayment.component';
 
 const config = new AuthServiceConfig([
   {
@@ -52,6 +53,7 @@ export function provideConfig() {
     LoansComponent,
     LoginComponent,
     BudgetComponent,
+    RepaymentComponent
   ],
   imports: [
     BrowserModule,
