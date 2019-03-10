@@ -68,7 +68,8 @@
         <!--</div>-->
       <!--</div>-->
 
-      <input class="align-bottom float-right" style="outline: none;" type="image" src="assets/images/baseline-add-24px.svg">
+      <input (click)="toggleBudgetItemForm()" title="Show/hide budget item-creation form"
+             class="align-bottom float-right" style="outline: none;" type="image" src="assets/images/baseline-add-24px.svg">
       <table class="table" *ngIf="budget.items">
         <thead class="thead-light">
         <tr>
@@ -111,7 +112,7 @@
         </tr>
         </thead>
       </table>
-      <form [formGroup]="budgetItemFormGroup" (submit)="onAddBudgetItem()" style="display: none;">
+      <form *ngIf="showBudgetItemForm" [formGroup]="budgetItemFormGroup" (submit)="onAddBudgetItem()">
         <div class="form-row">
           <div class="col-md-4 mb-3">
             <label for="category">Category</label>
@@ -157,7 +158,8 @@
   <div class="row" *ngIf="budget">
     <div class="col-5">
       <h5 class="d-inline">Fixed Monthly Expenses</h5>
-      <input class="align-bottom float-right" style="outline: none;" type="image" src="assets/images/baseline-add-24px.svg">
+      <input (click)="toggleFixedExpenseForm()" title="New fixed expense"
+             class="align-bottom float-right" style="outline: none;" type="image" src="assets/images/baseline-add-24px.svg">
       <table class="table">
         <thead class="thead-light">
         <tr>
@@ -182,7 +184,7 @@
         </thead>
       </table>
 
-      <form [formGroup]="fixedExpFormGroup" (submit)="onAddFixedExpense()">
+      <form *ngIf="showFixedExpenseForm" [formGroup]="fixedExpFormGroup" (submit)="onAddFixedExpense()">
         <div class="form-row">
           <div class="col-md-4 mb-3">
             <label for="category">Category</label>

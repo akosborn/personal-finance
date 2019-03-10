@@ -55,6 +55,8 @@ export class BudgetComponent implements OnInit {
           position: 'right'
         }
     };
+  showBudgetItemForm = false;
+  showFixedExpenseForm = false;
 
   constructor(private budgetService: BudgetService, private walletService: WalletService) {
   }
@@ -168,5 +170,13 @@ export class BudgetComponent implements OnInit {
 
   hideCategoryRows(id: string) {
     this.expandedRows = this.expandedRows.filter(rowId => rowId !== id);
+  }
+
+  toggleBudgetItemForm() {
+    this.showBudgetItemForm = !this.showBudgetItemForm;
+  }
+
+  toggleFixedExpenseForm() {
+    this.showFixedExpenseForm = !this.showFixedExpenseForm;
   }
 }
