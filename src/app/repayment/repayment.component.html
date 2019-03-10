@@ -26,5 +26,20 @@
       <!--<button (click)="randomize()">CLICK</button>-->
     <!--</div>-->
   </div>
+  <div class="row">
+    <div class="col-12">
+      <div style="display: block;" *ngIf="paymentData">
+        <canvas baseChart height="100%"
+                [datasets]="paymentData"
+                [labels]="lineChartLabels"
+                [options]="lineChartOptions"
+                [colors]="lineChartColors"
+                [legend]="lineChartLegend"
+                [chartType]="lineChartType"
+                (chartHover)="chartHovered($event)"
+                (chartClick)="chartClicked($event)"></canvas>
+      </div>
+    </div>
+  </div>
 
 </div>

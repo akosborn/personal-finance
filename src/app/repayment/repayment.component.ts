@@ -12,6 +12,8 @@ export class RepaymentComponent implements OnInit {
 
   public plan: any;
 
+  public paymentData: Array<any>;
+
   // lineChart
   public lineChartData: Array<any>;
   // public lineChartData: Array<any> = [
@@ -26,7 +28,7 @@ export class RepaymentComponent implements OnInit {
   };
   public lineChartColors: Array<any> = [
     { // grey
-      backgroundColor: 'rgba(148,159,177,0.2)',
+      backgroundColor: 'rgba(57,106,177,0.4)',
       borderColor: 'rgba(148,159,177,1)',
       pointBackgroundColor: 'rgba(148,159,177,1)',
       pointBorderColor: '#fff',
@@ -34,7 +36,7 @@ export class RepaymentComponent implements OnInit {
       pointHoverBorderColor: 'rgba(148,159,177,0.8)'
     },
     { // dark grey
-      backgroundColor: 'rgba(77,83,96,0.2)',
+      backgroundColor: 'rgba(218,124,48,0.4)',
       borderColor: 'rgba(77,83,96,1)',
       pointBackgroundColor: 'rgba(77,83,96,1)',
       pointBorderColor: '#fff',
@@ -42,15 +44,7 @@ export class RepaymentComponent implements OnInit {
       pointHoverBorderColor: 'rgba(77,83,96,1)'
     },
     { // grey
-      backgroundColor: 'rgba(148,159,177,0.2)',
-      borderColor: 'rgba(148,159,177,1)',
-      pointBackgroundColor: 'rgba(148,159,177,1)',
-      pointBorderColor: '#fff',
-      pointHoverBackgroundColor: '#fff',
-      pointHoverBorderColor: 'rgba(148,159,177,0.8)'
-    },
-    { // grey
-      backgroundColor: 'rgba(141,159,177,0.2)',
+      backgroundColor: 'rgba(62,150,81,0.4)',
       borderColor: 'rgba(148,159,177,1)',
       pointBackgroundColor: 'rgba(148,159,177,1)',
       pointBorderColor: '#fff',
@@ -67,6 +61,8 @@ export class RepaymentComponent implements OnInit {
       (plan: any) => {
         this.plan = plan;
         this.buildChart(plan);
+
+        this.buildPaymentChart(plan);
       }
     );
   }
@@ -121,7 +117,6 @@ export class RepaymentComponent implements OnInit {
     for (const schedule of plan.schedules) {
       months = (schedule.paymentRecords.length > months) ? schedule.paymentRecords.length : months;
     }
-    console.log('Max months: ' + months); // ToDo: Remove
     const date = new Date();
     const years = Math.floor(months / 12);
 
@@ -132,7 +127,25 @@ export class RepaymentComponent implements OnInit {
         labels.push(monthMap.get(month) + ' `' + year.toString().substr(2, 3));
       }
     }
-    console.log(labels); // ToDo: Remove
     return labels;
+  }
+
+  private buildPaymentChart(plan: any): void {
+    this.paymentData = this.mapPaymentData(plan);
+    this.lineChartLabels = this.buildLabelList(plan);
+  }
+
+  private mapPaymentData(plan: any): Array<any> {
+    const data = [];
+    for (const schedule of plan.schedules) {
+      const graphData = {} as any;
+      graphData.data = [];
+      for (const payment of schedule.paymentRecords) {
+        graphData.data.push(payment.paymentAmount.toFixed(2));
+      }
+      graphData.label = schedule.account.name;
+      data.push(graphData);
+    }
+    return data;
   }
 }
