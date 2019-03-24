@@ -14,14 +14,16 @@ export class Wallet {
   loans: Loan[] = [];
   creditCards: CreditCard[] = [];
   investments: Investment[] = [];
+  weeklyIncome: number;
 
-  constructor(id: number, userId: number, name: string, description: string, checkingAccounts: CheckingAccount[],
+  constructor(id: number, userId: number, name: string, description: string, weeklyIncome: number, checkingAccounts: CheckingAccount[],
               savingsAccounts: SavingsAccount[], loans: Loan[], creditCards: CreditCard[],
               investments: Investment[]) {
     this.id = id;
     this.userId = userId;
     this.name = name;
     this.description = description;
+    this.weeklyIncome = weeklyIncome;
     this.checkingAccounts = checkingAccounts;
     this.savingsAccounts = savingsAccounts;
     this.loans = loans;

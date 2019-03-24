@@ -73,7 +73,7 @@ export class WalletService {
             );
           }
           return new Wallet(
-            response.id, response.userId, response.name, response.description,
+            response.id, response.userId, response.name, response.description, response.weeklyIncome,
             checkingAccts, savingsAccts, loans, creditCards, investments);
         }
       ));

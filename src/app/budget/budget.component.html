@@ -3,16 +3,16 @@
   <div class="row no-gutters border-bottom mb-4">
     <hr>
     <div class="col-12 col-md-4" style="text-align: center">
-      <h2>{{ grossIncome | currency:'USD' }}</h2>
-      <p><b>GROSS</b> INCOME</p>
+      <h2>{{ (wallet.weeklyIncome * 52) / 12 | currency:'USD' }}</h2>
+      <p style="text-align: center"><b>NET</b> INCOME</p>
     </div>
     <div class="col-12 col-md-4 border-left border-right" style="text-align: center">
       <h2>{{ tax | currency:'USD' }}</h2>
-      <p style="text-align: center"><b>TAX</b> TOTAL</p>
+      <p style="text-align: center"><b>BUDGETED</b> INCOME</p>
     </div>
     <div class="col-12 col-md-4" style="text-align: center">
       <h2>{{ netIncome | currency:'USD' }}</h2>
-      <p style="text-align: center"><b>NET</b> INCOME</p>
+      <p style="text-align: center"><b>UNALLOCATED</b> INCOME</p>
     </div>
   </div>
 
