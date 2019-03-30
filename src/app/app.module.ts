@@ -21,9 +21,10 @@ import { InvestmentsComponent } from './investments/investments.component';
 import { LoansComponent } from './loans/loans.component';
 import { AuthServiceConfig, GoogleLoginProvider, SocialLoginModule } from 'angularx-social-login';
 import { LoginComponent } from './login/login.component';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ChartsModule } from 'ng2-charts';
 import { BudgetComponent } from './budget/budget.component';
+import { WalletSettingsComponent } from './wallet-settings/wallet-settings.component';
 
 const config = new AuthServiceConfig([
   {
@@ -52,6 +53,7 @@ export function provideConfig() {
     LoansComponent,
     LoginComponent,
     BudgetComponent,
+    WalletSettingsComponent
   ],
   imports: [
     BrowserModule,
@@ -60,7 +62,8 @@ export function provideConfig() {
     AppRoutingModule,
     HttpClientModule,
     SocialLoginModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    FormsModule
   ],
   providers: [
     SideNavToggleService,
