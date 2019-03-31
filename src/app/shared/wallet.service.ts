@@ -14,6 +14,36 @@ export class WalletService {
   walletSubject: Subject<Wallet> = new Subject<Wallet>();
   authSub: Subscription;
 
+  static jsonToWallet(response) {
+    // API returns accounts in a single indiscriminate list
+    let checkingAccts = [];
+    let savingsAccts = [];
+    let loans = [];
+    let creditCards = [];
+    let investments = [];
+
+    if (response.accounts) {
+      checkingAccts = response.accounts.filter(
+        acct => acct.type === 'CHECKING'
+      );
+      savingsAccts = response.accounts.filter(
+        acct => acct.type === 'SAVINGS'
+      );
+      loans = response.accounts.filter(
+        acct => acct.type === 'LOAN'
+      );
+      creditCards = response.accounts.filter(
+        acct => acct.type === 'CREDIT_CARD'
+      );
+      investments = response.accounts.filter(
+        acct => acct.type === 'INVESTMENT'
+      );
+    }
+    return new Wallet(
+      response.id, response.userId, response.name, response.description, response.weeklyIncome,
+      checkingAccts, savingsAccts, loans, creditCards, investments, response.annualIncome);
+  }
+
   constructor(private http: HttpClient, private authService: AuthService) {
     this.authSub = this.authService.authState.subscribe(
       (user: SocialUser) => {
@@ -47,39 +77,20 @@ export class WalletService {
   loadWallet(): Observable<Wallet> {
     return this.http.get<any>(AppComponent.apiBaseUrl + 'wallet', this.httpOptions)
       .pipe(map(
-        // API returns accounts in a single indiscriminate list
         (response) => {
-          let checkingAccts = [];
-          let savingsAccts = [];
-          let loans = [];
-          let creditCards = [];
-          let investments = [];
-
-          if (response.accounts) {
-            checkingAccts = response.accounts.filter(
-              acct => acct.type === 'CHECKING'
-            );
-            savingsAccts = response.accounts.filter(
-              acct => acct.type === 'SAVINGS'
-            );
-            loans = response.accounts.filter(
-              acct => acct.type === 'LOAN'
-            );
-            creditCards = response.accounts.filter(
-              acct => acct.type === 'CREDIT_CARD'
-            );
-            investments = response.accounts.filter(
-              acct => acct.type === 'INVESTMENT'
-            );
-          }
-          return new Wallet(
-            response.id, response.userId, response.name, response.description, response.weeklyIncome,
-            checkingAccts, savingsAccts, loans, creditCards, investments);
+          return WalletService.jsonToWallet(response);
         }
       ));
   }
 
   getWallet(): Wallet {
     return this.wallet;
+  }
+
+  updateWallet(wallet: Wallet): Observable<Wallet> {
+    return this.http.put(AppComponent.apiBaseUrl + 'wallet', wallet, this.httpOptions)
+      .pipe(map(
+        (response) => WalletService.jsonToWallet(response)
+        ));
   }
 }

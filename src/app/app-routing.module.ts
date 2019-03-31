@@ -10,6 +10,7 @@ import {InvestmentsComponent} from './investments/investments.component';
 import { LoginComponent } from './login/login.component';
 import { AuthGuard } from './auth/auth-guard.service';
 import { BudgetComponent } from './budget/budget.component';
+import { WalletSettingsComponent } from './wallet-settings/wallet-settings.component';
 
 const appRoutes: Routes = [
   { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
@@ -21,7 +22,8 @@ const appRoutes: Routes = [
   { path: 'credit-cards', component: CreditCardsComponent, canActivate: [AuthGuard] },
   { path: 'loans', component: LoansComponent, canActivate: [AuthGuard] },
   { path: 'investments', component: InvestmentsComponent, canActivate: [AuthGuard] },
-  { path: 'budget', component: BudgetComponent, canActivate: [AuthGuard] }
+  { path: 'budget', component: BudgetComponent, canActivate: [AuthGuard] },
+  { path: 'settings', component: WalletSettingsComponent, canActivate: [AuthGuard] }
 ];
 
 @NgModule({
