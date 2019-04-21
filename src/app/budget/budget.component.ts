@@ -16,7 +16,7 @@ import { Budget } from '../shared/budget.model';
 export class BudgetComponent implements OnInit {
 
   wallet: Wallet;
-  walletSubscription: Subscription;
+  budgetSubscription: Subscription;
 
   grossIncome = 47500;
   retirement = this.grossIncome * 0.04;
@@ -68,7 +68,7 @@ export class BudgetComponent implements OnInit {
         this.updateChart(this.budget.items);
         this.itemsByCategory = this.getBudgetItemsByCatgeory(this.budget.items);
       });
-    this.walletSubscription = this.budgetService.budgetSubject.subscribe(
+    this.budgetSubscription = this.budgetService.budgetSubject.subscribe(
       (budget: Budget) => {
         this.budget = budget;
         this.updateChart(this.budget.items);
@@ -137,9 +137,11 @@ export class BudgetComponent implements OnInit {
     const item: BudgetItem = new BudgetItem(this.budgetItemFormGroup.value);
     this.budgetService.post(item, this.budget.id).subscribe(
       (budgItem: BudgetItem) => {
-        this.budget.items.push(budgItem);
-        this.budgetItems = [...this.budgetItems]; // TODO: Consider making sum pipe impure instead of triggering it via deep copy
-        this.updateChart(this.budget.items);
+        this.budgetService.loadBudget().subscribe(
+          (budget: Budget) => {
+            this.budgetService.budgetSubject.next(budget);
+          }
+        );
       }
     );
     this.budgetItemFormGroup.reset();

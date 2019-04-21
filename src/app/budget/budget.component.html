@@ -7,7 +7,7 @@
       <p style="text-align: center"><b>NET</b> INCOME</p>
     </div>
     <div class="col-12 col-md-4 border-left border-right" style="text-align: center">
-      <h2>{{ tax | currency:'USD' }}</h2>
+      <h2>{{ budget.items | sum:'amount' | currency:'USD' }}</h2>
       <p style="text-align: center"><b>BUDGETED</b> INCOME</p>
     </div>
     <div class="col-12 col-md-4" style="text-align: center">
