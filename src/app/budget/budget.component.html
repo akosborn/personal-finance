@@ -3,7 +3,7 @@
   <div class="row no-gutters border-bottom mb-4">
     <hr>
     <div class="col-12 col-md-4" style="text-align: center">
-      <h2>{{ (wallet.weeklyIncome * 52) / 12 | currency:'USD' }}</h2>
+      <h2>{{ (wallet.annualIncome / 12) | currency:'USD' }}</h2>
       <p style="text-align: center"><b>NET</b> INCOME</p>
     </div>
     <div class="col-12 col-md-4 border-left border-right" style="text-align: center">
