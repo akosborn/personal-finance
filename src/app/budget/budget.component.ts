@@ -18,11 +18,7 @@ export class BudgetComponent implements OnInit {
   wallet: Wallet;
   budgetSubscription: Subscription;
 
-  grossIncome = 47500;
-  retirement = this.grossIncome * 0.04;
-  tax = 10115;
-  netIncome = this.grossIncome - this.retirement - this.tax;
-  monthlyNetIncome = this.netIncome / 12;
+  monthlyNetIncome: number;
 
   expenses: Expense[] = [];
   budget: Budget;
@@ -75,6 +71,7 @@ export class BudgetComponent implements OnInit {
         this.itemsByCategory = this.getBudgetItemsByCatgeory(this.budget.items);
       });
     this.wallet = this.walletService.getWallet();
+    this.monthlyNetIncome = this.wallet.annualIncome / 12;
     this.walletService.walletSubject.subscribe((wallet: Wallet) => this.wallet = wallet);
     this.fixedExpFormGroup = new FormGroup({
       category: new FormControl(null, [Validators.required]),
@@ -128,8 +125,12 @@ export class BudgetComponent implements OnInit {
   onAddFixedExpense() {
     const expense: Expense = new Expense(this.fixedExpFormGroup.value);
     this.budgetService.postFixedExpense(expense, this.budget.id).subscribe(
-      (exp: Expense) => { this.budgetService.loadBudget(); }
-      );
+      (exp: Expense) => {
+        this.budgetService.loadBudget().subscribe(
+          (budget: Budget) => {
+            this.budgetService.budgetSubject.next(budget);
+          });
+      });
     this.fixedExpFormGroup.reset();
   }
 
