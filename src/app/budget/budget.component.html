@@ -11,7 +11,7 @@
       <p style="text-align: center"><b>BUDGETED</b> INCOME</p>
     </div>
     <div class="col-12 col-md-4" style="text-align: center">
-      <h2>{{ netIncome | currency:'USD' }}</h2>
+      <h2>{{ (wallet.annualIncome / 12) - (budget.items | sum:'amount') | currency:'USD' }}</h2>
       <p style="text-align: center"><b>UNALLOCATED</b> INCOME</p>
     </div>
   </div>
