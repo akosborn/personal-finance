@@ -93,8 +93,20 @@ export class BudgetService {
           it.category = expense.category.name;
           it.description = expense.description;
           return it;
-        }
-        )
-      );
+        }));
+  }
+
+  updateItem(item: {}, budgetId: number, itemId: number): Observable<BudgetItem> {
+    return this.http.patch(AppComponent.apiBaseUrl + 'budget/' + budgetId + '/items/' + itemId, item, this.httpOptions)
+      .pipe(map(
+        (response: any) => {
+          const it: BudgetItem = new BudgetItem();
+          it.id = response.id;
+          it.budgetId = response.budget.id;
+          it.amount = response.amount;
+          it.category = response.category.name;
+          it.description = response.description;
+          return it;
+        }));
   }
 }

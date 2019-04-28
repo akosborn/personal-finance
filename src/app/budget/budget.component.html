@@ -100,6 +100,7 @@
             <td>{{ item.amount / monthlyNetIncome | percent }}</td>
             <td>
               <input type="image" class="align-middle" src="assets/images/baseline-remove-24px.svg" (click)="onDeleteItem(item.id)">
+              <input type="image" class="align-middle" src="assets/images/baseline-edit-24px.svg" (click)="onEditItem(item)">
             </td>
           </tr>
         </tbody>
@@ -142,7 +143,39 @@
                   class="btn btn-primary mb-2">Add</button>
         </div>
       </form>
+
+      <form *ngIf="showEditBudgetItemForm" [formGroup]="budgetItemEditFormGroup" (submit)="onSaveItemEdit()">
+        <div class="form-row">
+          <div class="col-md-4 mb-3">
+            <label for="edit-budget-item-category">Category</label>
+            <select id="edit-budget-item-category" class="form-control" formControlName="category">
+              <option *ngFor="let category of categories" value="{{ category }}">{{ category }}</option>
+            </select>
+          </div>
+
+          <div class="col-md-5 mb-3">
+            <label for="edit-budget-item-desc">Description</label>
+            <input type="text" class="form-control" id="edit-budget-item-desc" placeholder="Description"
+                   formControlName="description">
+          </div>
+
+          <div class="col-md-3 mb-3">
+            <label for="amount">Amount</label>
+            <div class="input-group">
+              <div class="input-group-prepend">
+                <div class="input-group-text">$</div>
+              </div>
+              <input type="number" class="form-control" id="budget-item-amt" placeholder="Amount"
+                     formControlName="amount">
+            </div>
+          </div>
+
+          <button type="submit"
+                  class="btn btn-primary mb-2">Save</button>
+        </div>
+      </form>
     </div>
+
     <div class="col-12 col-md-3 col-xl-4 justify-content-center">
       <div style="display: block">
         <canvas baseChart

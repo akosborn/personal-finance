@@ -25,6 +25,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ChartsModule } from 'ng2-charts';
 import { BudgetComponent } from './budget/budget.component';
 import { WalletSettingsComponent } from './wallet-settings/wallet-settings.component';
+import { ToastrModule } from 'ngx-toastr';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 const config = new AuthServiceConfig([
   {
@@ -63,7 +65,9 @@ export function provideConfig() {
     HttpClientModule,
     SocialLoginModule,
     ReactiveFormsModule,
-    FormsModule
+    FormsModule,
+    BrowserAnimationsModule,
+    ToastrModule.forRoot()
   ],
   providers: [
     SideNavToggleService,

@@ -7,6 +7,8 @@ import { WalletService } from '../shared/wallet.service';
 import { Wallet } from '../shared/wallet.model';
 import { Subscription } from 'rxjs';
 import { Budget } from '../shared/budget.model';
+import { ToastrService } from 'ngx-toastr';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-budget',
@@ -27,6 +29,7 @@ export class BudgetComponent implements OnInit {
 
   fixedExpFormGroup: FormGroup;
   budgetItemFormGroup: FormGroup;
+  budgetItemEditFormGroup: FormGroup;
   categories = [
     'Debt Repayment',
     'Emergency Fund',
@@ -53,8 +56,11 @@ export class BudgetComponent implements OnInit {
     };
   showBudgetItemForm = false;
   showFixedExpenseForm = false;
+  showEditBudgetItemForm = false;
 
-  constructor(private budgetService: BudgetService, private walletService: WalletService) {
+  constructor(private budgetService: BudgetService,
+              private walletService: WalletService,
+              private toastrService: ToastrService) {
   }
 
   ngOnInit() {
@@ -153,9 +159,7 @@ export class BudgetComponent implements OnInit {
       (succ: any) => {
         console.log(succ);
         this.budgetService.loadBudget().subscribe(
-          (budget: Budget) => {
-            this.budgetService.budgetSubject.next(budget);
-          }
+          (budget: Budget) => this.budgetService.budgetSubject.next(budget)
         );
         this.walletService.loadWallet().subscribe(
           (wallet: Wallet) => this.walletService.walletSubject.next(wallet)
@@ -181,5 +185,49 @@ export class BudgetComponent implements OnInit {
 
   toggleFixedExpenseForm() {
     this.showFixedExpenseForm = !this.showFixedExpenseForm;
+  }
+
+  onEditItem(item: BudgetItem) {
+    this.budgetItemEditFormGroup = new FormGroup({
+      id: new FormControl(item.id),
+      category: new FormControl(item.category, [Validators.required]),
+      description: new FormControl(item.description, [Validators.maxLength(100)]),
+      amount: new FormControl(item.amount, Validators.required)
+    });
+    this.showEditBudgetItemForm = true;
+  }
+
+  onSaveItemEdit() {
+    const itemId = this.budgetItemEditFormGroup.value.id;
+    const partialItem: {} = this.getDirtyValues(this.budgetItemEditFormGroup);
+    if (partialItem) { // Only PATCH if any values changed
+      this.budgetService.updateItem(partialItem, this.budget.id, itemId).subscribe(
+        (item: BudgetItem) => {
+          this.toastrService.success('Updated ' + item.description, 'Success', {positionClass: 'toast-bottom-right'});
+          this.budgetService.loadBudget().subscribe(
+            (budget: Budget) => this.budgetService.budgetSubject.next(budget));
+        },
+        (err: HttpErrorResponse) => {
+          this.toastrService.error(err.statusText, 'Oops!', {positionClass: 'toast-bottom-right'});
+        }
+      );
+    }
+  }
+
+  // Returns only the fields in a form that have been modified
+  getDirtyValues(form: any) {
+    const dirtyValues = {};
+    Object.keys(form.controls)
+      .forEach(key => {
+        const currentControl = form.controls[key];
+        if (currentControl.dirty) {
+          if (currentControl.controls) {
+            dirtyValues[key] = this.getDirtyValues(currentControl);
+          } else {
+            dirtyValues[key] = currentControl.value;
+          }
+        }
+      });
+    return dirtyValues;
   }
 }
