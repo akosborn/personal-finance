@@ -12,6 +12,7 @@
           <th scope="col">BALANCE</th>
           <th scope="col">LIMIT</th>
           <th scope="col">USAGE</th>
+          <th scope="col"></th>
         </tr>
         </thead>
         <tbody>
@@ -22,6 +23,10 @@
           <td>{{ account.balance | currency:'USD'}}</td>
           <td>{{ account.limitAmt | currency:'USD'}}</td>
           <td>{{ (account.balance / account.limitAmt) | percent: '1.2-2' }}</td>
+          <td>
+            <button class="btn btn-danger"
+                    (click)="onDeleteCreditCard(account.id)">Delete</button>
+          </td>
         </tr>
         </tbody>
         <thead class="thead-light">
@@ -40,7 +45,7 @@
   <div class="col-12">
     <form [formGroup]="accountFormGroup" (submit)="onSubmit()">
       <div class="form-row">
-        <div class="col-md-3 mb-3">
+        <div class="col-md-2 mb-3">
           <label for="name">Bank</label>
           <input type="text" class="form-control"
                  [class.is-invalid]="accountFormGroup.get('name').hasError('required') && accountFormGroup.get('name').touched"
@@ -126,10 +131,14 @@
           </div>
         </div>
 
-        <button type="submit"
-                class="btn btn-primary mb-2"
-                [disabled]="accountFormGroup.invalid">Add</button>
+        <div class="col">
+          <label for="dueDay">Due Day</label>
+          <input id="dueDay" class="form-control" formControlName="dueDay" type="number" min="1" max="29">
+        </div>
       </div>
+      <button type="submit"
+              class="btn btn-primary mb-2"
+              [disabled]="accountFormGroup.invalid">Add</button>
     </form>
   </div>
 </div>

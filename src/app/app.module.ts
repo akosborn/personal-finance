@@ -21,8 +21,12 @@ import { InvestmentsComponent } from './investments/investments.component';
 import { LoansComponent } from './loans/loans.component';
 import { AuthServiceConfig, GoogleLoginProvider, SocialLoginModule } from 'angularx-social-login';
 import { LoginComponent } from './login/login.component';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ChartsModule } from 'ng2-charts';
+import { BudgetComponent } from './budget/budget.component';
+import { WalletSettingsComponent } from './wallet-settings/wallet-settings.component';
+import { ToastrModule } from 'ngx-toastr';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 const config = new AuthServiceConfig([
   {
@@ -50,6 +54,8 @@ export function provideConfig() {
     InvestmentsComponent,
     LoansComponent,
     LoginComponent,
+    BudgetComponent,
+    WalletSettingsComponent
   ],
   imports: [
     BrowserModule,
@@ -58,7 +64,10 @@ export function provideConfig() {
     AppRoutingModule,
     HttpClientModule,
     SocialLoginModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    FormsModule,
+    BrowserAnimationsModule,
+    ToastrModule.forRoot()
   ],
   providers: [
     SideNavToggleService,

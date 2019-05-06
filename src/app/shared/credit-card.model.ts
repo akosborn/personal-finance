@@ -1,5 +1,6 @@
 import { AccountModel } from './account.model';
 import { Expense } from './expense.model';
+import { CheckingAccount } from './checking-account.model';
 
 export class CreditCard implements AccountModel {
   balance: number;
@@ -10,5 +11,10 @@ export class CreditCard implements AccountModel {
   minPayment: number;
   interestRate: number;
   expenses: Expense[];
-  type: string;
+  type = 'CREDIT_CARD';
+  dueDay: number;
+
+  constructor(init?: Partial<AccountModel>) {
+    Object.assign(this, init);
+  }
 }

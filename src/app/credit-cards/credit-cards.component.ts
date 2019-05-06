@@ -5,6 +5,7 @@ import { WalletService } from '../shared/wallet.service';
 import { Wallet } from '../shared/wallet.model';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { CreditCardService } from '../shared/credit-card.service';
+import { AccountService } from '../shared/account.service';
 
 @Component({
   selector: 'app-credit-cards',
@@ -18,8 +19,10 @@ export class CreditCardsComponent implements OnInit, OnDestroy {
   walletSubscription: Subscription;
   accountFormGroup: FormGroup;
 
+  dueDateDays: number[] = Array.from(Array(29).keys(), n => n + 1);
+
   constructor(private walletService: WalletService,
-              private creditCardService: CreditCardService) { }
+              private acctService: AccountService) { }
 
   ngOnInit() {
     // check if wallet initialized
@@ -41,19 +44,35 @@ export class CreditCardsComponent implements OnInit, OnDestroy {
       balance: new FormControl(null, Validators.required),
       limitAmt: new FormControl(null, Validators.required),
       minPayment: new FormControl(null, Validators.required),
-      interestRate: new FormControl(null, Validators.required)
+      interestRate: new FormControl(null, Validators.required),
+      dueDay: new FormControl(null, Validators.required)
     });
   }
 
   onSubmit() {
-    const account: CreditCard = this.accountFormGroup.value;
-    this.creditCardService.post(account).subscribe(
-      (accounts: CreditCard[]) => {
-        this.wallet.creditCards = accounts;
+    const account: CreditCard = new CreditCard(this.accountFormGroup.value);
+    this.acctService.post(account).subscribe(
+      (acct: CreditCard) => {
+        this.wallet.creditCards.push(acct);
         this.walletService.walletSubject.next(this.wallet);
       }
     );
     this.accountFormGroup.reset();
+  }
+
+  onDeleteCreditCard(id: number): void {
+    this.acctService.delete(id).subscribe(
+      (succ: any) => {
+        this.creditCards = this.creditCards.filter(acct => acct.id !== id);
+        this.walletService.loadWallet().subscribe(
+          (wallet: Wallet) => this.walletService.walletSubject.next(wallet)
+        );
+      },
+      (err: any) => {
+        // TODO: - Handle error by displaying message in view
+        console.log(err.message);
+      }
+    );
   }
 
   ngOnDestroy(): void {

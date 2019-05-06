@@ -14,19 +14,23 @@ export class Wallet {
   loans: Loan[] = [];
   creditCards: CreditCard[] = [];
   investments: Investment[] = [];
+  weeklyIncome: number;
+  annualIncome: number;
 
-  constructor(id: number, userId: number, name: string, description: string, checkingAccounts: CheckingAccount[],
-              savingsAccounts: SavingsAccount[], loans: Loan[], creditCards: CreditCard[],
-              investments: Investment[]) {
+  constructor(id: number, userId: number, name: string, description: string, weeklyIncome: number, checkingAccounts: CheckingAccount[],
+              savingsAccounts: SavingsAccount[], loans: Loan[], creditCards: CreditCard[], investments: Investment[],
+              annualIncome: number) {
     this.id = id;
     this.userId = userId;
     this.name = name;
     this.description = description;
+    this.weeklyIncome = weeklyIncome;
     this.checkingAccounts = checkingAccounts;
     this.savingsAccounts = savingsAccounts;
     this.loans = loans;
     this.creditCards = creditCards;
     this.investments = investments;
+    this.annualIncome = annualIncome;
   }
 
   private static calculateBalance(accounts: CheckingAccount[] | SavingsAccount[] | Loan[] | CreditCard[] | Investment[]): number {
