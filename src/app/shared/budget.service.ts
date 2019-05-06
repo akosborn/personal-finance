@@ -53,7 +53,7 @@ export class BudgetService {
             it.description = item.description;
             items.push(it);
           }
-          return new Budget(response.id, response.user.id, items, response.fixedExpenses);
+          return new Budget(response.id, response.user.id, items);
         }
       ));
   }
@@ -80,20 +80,6 @@ export class BudgetService {
       .pipe(map(
         (response: any) => response
       ));
-  }
-
-  postFixedExpense(fixedExpense: Expense, budgetAcctId: number): Observable<Expense> {
-    return this.http.post<Expense>(AppComponent.apiBaseUrl + 'budget/' + budgetAcctId + '/fixed-expense', fixedExpense, this.httpOptions)
-      .pipe(map(
-        (expense: any) => {
-          const it: Expense = new Expense();
-          it.id = expense.id;
-          it.budgetId = expense.budget.id;
-          it.amount = expense.amount;
-          it.category = expense.category.name;
-          it.description = expense.description;
-          return it;
-        }));
   }
 
   updateItem(item: {}, budgetId: number, itemId: number): Observable<BudgetItem> {

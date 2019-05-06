@@ -24,10 +24,8 @@ export class BudgetComponent implements OnInit {
 
   expenses: Expense[] = [];
   budget: Budget;
-  budgetItems = [];
   itemsByCategory: Map<string, BudgetItem[]>;
 
-  fixedExpFormGroup: FormGroup;
   budgetItemFormGroup: FormGroup;
   budgetItemEditFormGroup: FormGroup;
   categories = [
@@ -79,11 +77,6 @@ export class BudgetComponent implements OnInit {
     this.wallet = this.walletService.getWallet();
     this.monthlyNetIncome = this.wallet.annualIncome / 12;
     this.walletService.walletSubject.subscribe((wallet: Wallet) => this.wallet = wallet);
-    this.fixedExpFormGroup = new FormGroup({
-      category: new FormControl(null, [Validators.required]),
-      description: new FormControl(null, [Validators.maxLength(100)]),
-      amount: new FormControl(null, Validators.required)
-    });
     this.budgetItemFormGroup = new FormGroup({
       category: new FormControl(null, [Validators.required]),
       description: new FormControl(null, [Validators.maxLength(100)]),
@@ -126,18 +119,6 @@ export class BudgetComponent implements OnInit {
       }
     }
     return budgetMap;
-  }
-
-  onAddFixedExpense() {
-    const expense: Expense = new Expense(this.fixedExpFormGroup.value);
-    this.budgetService.postFixedExpense(expense, this.budget.id).subscribe(
-      (exp: Expense) => {
-        this.budgetService.loadBudget().subscribe(
-          (budget: Budget) => {
-            this.budgetService.budgetSubject.next(budget);
-          });
-      });
-    this.fixedExpFormGroup.reset();
   }
 
   onAddBudgetItem(): void {
@@ -183,10 +164,6 @@ export class BudgetComponent implements OnInit {
     this.showBudgetItemForm = !this.showBudgetItemForm;
   }
 
-  toggleFixedExpenseForm() {
-    this.showFixedExpenseForm = !this.showFixedExpenseForm;
-  }
-
   onEditItem(item: BudgetItem) {
     this.budgetItemEditFormGroup = new FormGroup({
       id: new FormControl(item.id),
@@ -197,6 +174,10 @@ export class BudgetComponent implements OnInit {
     this.showEditBudgetItemForm = true;
   }
 
+  toggleEditItemForm() {
+    this.showEditBudgetItemForm = !this.showEditBudgetItemForm;
+  }
+
   onSaveItemEdit() {
     const itemId = this.budgetItemEditFormGroup.value.id;
     const partialItem: {} = this.getDirtyValues(this.budgetItemEditFormGroup);
@@ -204,6 +185,8 @@ export class BudgetComponent implements OnInit {
       this.budgetService.updateItem(partialItem, this.budget.id, itemId).subscribe(
         (item: BudgetItem) => {
           this.toastrService.success('Updated ' + item.description, 'Success', {positionClass: 'toast-bottom-right'});
+          this.budgetItemEditFormGroup.reset();
+          this.toggleEditItemForm();
           this.budgetService.loadBudget().subscribe(
             (budget: Budget) => this.budgetService.budgetSubject.next(budget));
         },
