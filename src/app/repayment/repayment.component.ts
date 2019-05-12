@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { PaymentService } from '../shared/payment.service';
+import * as moment from 'moment';
+import { Moment } from 'moment';
 
 @Component({
   selector: 'app-repayment',
@@ -16,14 +18,9 @@ export class RepaymentComponent implements OnInit {
 
   // lineChart
   public lineChartData: Array<any>;
-  // public lineChartData: Array<any> = [
-  //   {data: [5268, 5135, 5001, 4730], label: 'Series A'},
-  //   {data: [28, 48, 40, 19, 86, 27, 90], label: 'Series B'},
-  //   {data: [18, 48, 77, 9, 100, 27, 40], label: 'Series C'},
-  //   {data: [18, 48, 77, 9, 100, 27, 40], label: 'Series C'}
-  // ];
   public lineChartLabels: Array<any> = [];
   public lineChartOptions: any = {
+    lineTension: 0.1,
     responsive: true
   };
   public lineChartColors: Array<any> = [
@@ -89,6 +86,7 @@ export class RepaymentComponent implements OnInit {
 
   private buildChart(plan: any) {
     this.lineChartData = this.mapData(plan);
+    console.log(this.lineChartData);
     this.lineChartLabels = this.buildLabelList(plan);
   }
 
@@ -101,31 +99,24 @@ export class RepaymentComponent implements OnInit {
         graphData.data.push(payment.balance.toFixed(2));
       }
       graphData.label = schedule.account.name;
+      graphData.lineTension = 0;
       data.push(graphData);
     }
     return data;
   }
 
   private buildLabelList(plan: any): Array<any> {
-    const monthMap: Map<number, string> = new Map([
-      [1, 'Jan'], [2, 'Feb'], [3, 'Mar'], [4, 'Apr'],
-      [5, 'May'], [6, 'Jun'], [7, 'Jul'], [8, 'Aug'],
-      [9, 'Sep'], [10, 'Oct'], [11, 'Nov'], [12, 'Dec']
-    ]);
     const labels: string[] = [];
     let months = 0;
     for (const schedule of plan.schedules) {
       months = (schedule.paymentRecords.length > months) ? schedule.paymentRecords.length : months;
     }
-    const date = new Date();
-    const years = Math.floor(months / 12);
 
-    let year = date.getFullYear();
-    for (let i = 1; i <= years; i++) {
-      year += 1;
-      for (let month = 1; month <= 12; month++) {
-        labels.push(monthMap.get(month) + ' `' + year.toString().substr(2, 3));
-      }
+    const endDate: Moment = moment().add(months, 'month');
+    const date: Moment = moment();
+    while (date.isSameOrBefore(endDate)) {
+      labels.push(date.format('MMM \'YY'));
+      date.add(1, 'month');
     }
     return labels;
   }
@@ -144,6 +135,7 @@ export class RepaymentComponent implements OnInit {
         graphData.data.push(payment.paymentAmount.toFixed(2));
       }
       graphData.label = schedule.account.name;
+      graphData.lineTension = 0;
       data.push(graphData);
     }
     return data;
