@@ -1,6 +1,6 @@
 <div [ngbCollapse]="collapsed" class="wrapper">
   <nav class="col-6 col-md-3 col-xl-2 d-md-block sidebar">
-    <div class="sidebar-sticky">
+    <div class="sidebar-sticky" *ngIf="isLoggedIn">
       <h6 *ngIf="wallet" class="sidebar-heading d-flex justify-content-center mb-1 text-muted">
         {{ wallet.name }} Wallet
       </h6>

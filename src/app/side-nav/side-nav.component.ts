@@ -2,7 +2,7 @@ import { Component, HostListener, OnInit } from '@angular/core';
 import { SideNavToggleService } from '../shared/side-nav-toggle.service';
 import { Wallet } from '../shared/wallet.model';
 import { WalletService } from '../shared/wallet.service';
-import { AuthService } from 'angularx-social-login';
+import { AuthService, SocialUser } from 'angularx-social-login';
 
 @Component({
   selector: 'app-side-nav',
@@ -14,6 +14,7 @@ export class SideNavComponent implements OnInit {
   wallet: Wallet;
   private collapsed;
   private screenWidth;
+  private isLoggedIn: boolean;
   @HostListener('window:resize', ['$event']) onResize(event?) {
     this.screenWidth = window.innerWidth;
     if (this.screenWidth > 767) {
@@ -34,6 +35,9 @@ export class SideNavComponent implements OnInit {
       .subscribe(
         (collapsed: boolean) => this.collapsed = collapsed
       );
+    this.authService.authState.subscribe((user: SocialUser) => {
+      this.isLoggedIn = (user != null);
+    });
 
     this.wallet = this.walletService.getWallet();
     this.walletService.walletSubject.subscribe(
