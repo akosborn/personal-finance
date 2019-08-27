@@ -23,7 +23,7 @@
     "@ng-bootstrap/ng-bootstrap": "^3.2.0",
     "@types/core-js": "^2.5.0",
     "angularx-social-login": "https://github.com/akosborn/angularx-social-login/tarball/develop",
-    "bootstrap": "^4.1.1",
+    "bootstrap": "^4.3.1",
     "chart.js": "^2.7.2",
     "core-js": "^2.5.4",
     "material-design-icons": "^3.0.1",
@@ -33,7 +33,7 @@
     "zone.js": "^0.8.27"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "~0.8.1",
+    "@angular-devkit/build-angular": "^0.803.0",
     "@angular/cli": "~6.2.1",
     "@angular/compiler-cli": "^7.2.0",
     "@angular/language-service": "^7.2.0",
