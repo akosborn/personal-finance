@@ -1,0 +1,25 @@
+<div class="justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
+  <h1 class="h2 border-bottom">Settings</h1>
+
+  <form (submit)="onUpdateIncome()">
+    <div class="col-xl-2">
+      <label for="annual-net-income">Annual Net Income</label>
+      <div class="input-group mb-3">
+        <div class="input-group-prepend">
+          <span class="input-group-text">$</span>
+        </div>
+        <input type="text" class="form-control" id="annual-net-income"
+               [formControl]="incomeFormCtl"
+               [class.is-invalid]="incomeFormCtl.hasError('forbiddenValue') && incomeFormCtl.touched"
+               aria-label="Amount (to the nearest dollar)">
+        <div class="input-group-append">
+          <span class="input-group-text">.00</span>
+        </div>
+        <div *ngIf="incomeFormCtl.hasError('forbiddenValue') && incomeFormCtl.touched" class="invalid-feedback">
+          Value must be different from current value.
+        </div>
+      </div>
+      <button type="submit" class="btn btn-primary" [disabled]="incomeFormCtl.invalid">Update</button>
+    </div>
+  </form>
+</div>

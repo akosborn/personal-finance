@@ -1,0 +1,37 @@
+<div *ngIf="wallet" class="justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
+  <h1 class="h2 border-bottom">Dashboard</h1>
+  <div class="row no-gutters">
+    <hr>
+    <div class="col-12 col-md-4" style="text-align: center">
+      <input *ngIf="!wallet.checkingAccounts"
+             type="image" src="assets/images/baseline-add-24px.svg"
+             [routerLink]="['/checking']"
+             [queryParams]="{action: 'add'}">
+      <h2 *ngIf="wallet.checkingAccounts">{{ wallet.getCheckingBalance() | currency:'USD' }}</h2>
+      <p><b>CHECKING</b> BALANCE</p>
+    </div>
+    <div class="col-12 col-md-4 border-left border-right" style="text-align: center">
+      <input *ngIf="!wallet.savingsAccounts"
+             type="image" src="assets/images/baseline-add-24px.svg"
+             [routerLink]="['/savings']">
+      <h2 *ngIf="wallet.savingsAccounts">{{ wallet.getSavingsBalance() | currency:'USD' }}</h2>
+      <p style="text-align: center"><b>SAVINGS</b> BALANCE</p>
+    </div>
+    <div class="col-12 col-md-4" style="text-align: center">
+      <input *ngIf="!wallet.creditCards"
+             type="image"
+             src="assets/images/baseline-add-24px.svg"
+             [routerLink]="['/credit-cards']">
+      <h2 *ngIf="wallet.creditCards || wallet.loans">{{ wallet.getCreditCardBalance() + wallet.getLoansBalance() | currency:'USD' }}</h2>
+      <p style="text-align: center"><b>DEBT</b> BALANCE</p>
+    </div>
+  </div>
+  <div class="row no-gutters justify-content-center">
+    <div style="display: block; width: 80%">
+      <canvas baseChart
+              [data]="pieChartData"
+              [labels]="pieChartLabels"
+              [chartType]="pieChartType"></canvas>
+    </div>
+  </div>
+</div>

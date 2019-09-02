@@ -1,0 +1,145 @@
+<div class="justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
+  <h1 class="h2 border-bottom">Credit Cards</h1>
+  <div class="row no-gutters">
+    <hr>
+    <div class="col-12">
+      <table class="table">
+        <thead class="thead-light">
+        <tr>
+          <th scope="col">NAME</th>
+          <th scope="col">DESCRIPTION</th>
+          <th scope="col">APR</th>
+          <th scope="col">BALANCE</th>
+          <th scope="col">LIMIT</th>
+          <th scope="col">USAGE</th>
+          <th scope="col"></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let account of creditCards">
+          <th scope="row">{{ account.name}}</th>
+          <td>{{ account.description }}</td>
+          <td>{{ account.interestRate | number:'1.2-2' }} %</td>
+          <td>{{ account.balance | currency:'USD'}}</td>
+          <td>{{ account.limitAmt | currency:'USD'}}</td>
+          <td>{{ (account.balance / account.limitAmt) | percent: '1.2-2' }}</td>
+          <td>
+            <button class="btn btn-danger"
+                    (click)="onDeleteCreditCard(account.id)">Delete</button>
+          </td>
+        </tr>
+        </tbody>
+        <thead class="thead-light">
+        <tr>
+          <th scope="col"></th>
+          <th scope="col"></th>
+          <th scope="col">TOTAL</th>
+          <th scope="col">{{ creditCards | sum:'balance' | currency:'USD' }}</th>
+          <th scope="col">{{ creditCards | sum:'limitAmt' | currency:'USD' }}</th>
+          <th scope="col">{{ ((creditCards | sum:'balance') / (creditCards | sum:'limitAmt')) | percent: '1.2-2' }}</th>
+        </tr>
+        </thead>
+      </table>
+    </div>
+  </div>
+  <div class="col-12">
+    <form [formGroup]="accountFormGroup" (submit)="onSubmit()">
+      <div class="form-row">
+        <div class="col-md-2 mb-3">
+          <label for="name">Bank</label>
+          <input type="text" class="form-control"
+                 [class.is-invalid]="accountFormGroup.get('name').hasError('required') && accountFormGroup.get('name').touched"
+                 id="name" placeholder="Bank" formControlName="name">
+          <div *ngIf="accountFormGroup.get('name').hasError('required') && accountFormGroup.get('name').touched"
+               class="invalid-feedback">
+            Please enter a name.
+          </div>
+        </div>
+
+        <div class="col-md-2 mb-3">
+          <label for="description">Description</label>
+          <input type="text" class="form-control" id="description" placeholder="Description"
+                 formControlName="description"
+                 [class.is-invalid]="accountFormGroup.get('description').hasError('maxlength')">
+          <div *ngIf="accountFormGroup.get('description').hasError('maxlength')"
+               class="invalid-feedback d-block">
+            Must be less than 100 characters.
+          </div>
+        </div>
+
+        <div class="col-md-2 mb-3">
+          <label for="balance">Balance</label>
+          <div class="input-group">
+            <div class="input-group-prepend">
+              <div class="input-group-text">$</div>
+            </div>
+            <input type="text" class="form-control" id="balance" placeholder="Balance"
+                   formControlName="balance"
+                   [class.is-invalid]="accountFormGroup.get('balance').hasError('required') && accountFormGroup.get('balance').touched">
+            <div *ngIf="accountFormGroup.get('balance').hasError('required') && accountFormGroup.get('balance').touched"
+                 class="invalid-feedback">
+              Please enter a balance.
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-2 mb-3">
+          <label for="minPayment">Min Payment</label>
+          <div class="input-group">
+            <div class="input-group-prepend">
+              <div class="input-group-text">$</div>
+            </div>
+            <input type="text" class="form-control" id="minPayment" placeholder="Min Payment"
+                   formControlName="minPayment"
+                   [class.is-invalid]="accountFormGroup.get('minPayment').hasError('required') && accountFormGroup.get('minPayment').touched">
+            <div *ngIf="accountFormGroup.get('minPayment').hasError('required') && accountFormGroup.get('minPayment').touched"
+                 class="invalid-feedback">
+              Please enter a min payment.
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-2 mb-3">
+          <label for="limitAmt">Limit</label>
+          <div class="input-group">
+            <div class="input-group-prepend">
+              <div class="input-group-text">$</div>
+            </div>
+            <input type="text" class="form-control" id="limitAmt" placeholder="Limit"
+                   formControlName="limitAmt"
+                   [class.is-invalid]="accountFormGroup.get('limitAmt').hasError('required') && accountFormGroup.get('limitAmt').touched">
+            <div *ngIf="accountFormGroup.get('limitAmt').hasError('required') && accountFormGroup.get('limitAmt').touched"
+                 class="invalid-feedback">
+              Please enter a limit.
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-1 mb-3">
+          <label for="balance">Interest Rate</label>
+          <div class="input-group">
+            <input type="text" class="form-control" id="interestRate" placeholder="APR"
+                   formControlName="interestRate"
+                   [class.is-invalid]="accountFormGroup.get('interestRate').hasError('required') && accountFormGroup.get('interestRate').touched">
+            <div class="input-group-append">
+              <span class="input-group-text" id="basic-addon2">%</span>
+            </div>
+            <div *ngIf="accountFormGroup.get('interestRate').hasError('required') && accountFormGroup.get('interestRate').touched"
+                 class="invalid-feedback">
+              Please enter a rate.
+            </div>
+          </div>
+        </div>
+
+        <div class="col">
+          <label for="dueDay">Due Day</label>
+          <input id="dueDay" class="form-control" formControlName="dueDay" type="number" min="1" max="29">
+        </div>
+      </div>
+      <button type="submit"
+              class="btn btn-primary mb-2"
+              [disabled]="accountFormGroup.invalid">Add</button>
+    </form>
+  </div>
+</div>
+

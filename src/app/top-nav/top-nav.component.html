@@ -1,3 +1,20 @@
-<p>
-  top-nav works!
-</p>
+<nav class="navbar sticky-top flex-md-nowrap p-0">
+  <div class="col-md-3 col-xl-2 pr-0 bg-grey">
+    <a class="navbar-brand text-white" href="#">
+      <img src="assets/images/ic_monetization_on_24px.svg" alt="Icon">
+      PerFI
+    </a>
+  </div>
+  <button *ngIf="loggedIn" class="navbar-toggler navbar-light mr-auto" (click)="onToggleSidebar()"
+          type="button" data-toggle="collapse" data-target="#side-nav-wrapper"
+          aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <ul class="navbar-nav px-3">
+    <li *ngIf="loggedIn" class="nav-item text-nowrap">
+      <input type="image"
+             (click)="signOut()"
+             src="assets/images/ic_exit_to_app_black_24dp.png">
+    </li>
+  </ul>
+</nav>

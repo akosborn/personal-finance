@@ -1,0 +1,92 @@
+<div class="justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
+  <h1 class="h2 border-bottom">Transactions</h1>
+  <div class="row no-gutters">
+    <hr>
+    <div class="col-12">
+      <table class="table">
+        <thead class="thead-light">
+          <tr>
+            <th scope="col">DATE</th>
+            <th scope="col">ACCOUNT</th>
+            <th scope="col">CATEGORY</th>
+            <th scope="col">DESCRIPTION</th>
+            <th scope="col">AMOUNT</th>
+            <th scope="col"></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let expense of expenses">
+            <th scope="row">{{ expense.date | date:'mediumDate' }}</th>
+            <td>{{ expense.account.name }}</td>
+            <td></td>
+            <td>{{ expense.description }}</td>
+            <td>{{ expense.amount | currency:'USD'}}</td>
+            <td>
+              <button class="btn btn-danger"
+                      (click)="onDeleteExpense(expense)">Delete</button>
+            </td>
+          </tr>
+        </tbody>
+        <thead class="thead-light">
+          <tr>
+            <th scope="col"></th>
+            <th scope="col"></th>
+            <th scope="col">TOTAL</th>
+            <th scope="col">{{ expenses | sum:'amount' | currency:'USD' }}</th>
+            <th scope="col"></th>
+            <th scope="col"></th>
+          </tr>
+        </thead>
+      </table>
+    </div>
+  </div>
+
+  <div class="col-12">
+    <form [formGroup]="expenseFormGroup" (submit)="onSubmit()">
+      <div class="form-row">
+
+        <div class="col-md-2 mb-3" formGroupName="account">
+          <label for="account">Account</label>
+          <select id="account"
+                  class="form-control"
+                  formControlName="id">
+            <option *ngFor="let account of wallet.checkingAccounts"
+                    [value]="account.id">{{ account.name }}</option>
+          </select>
+        </div>
+
+        <div class="col-md-2 mb-3">
+          <label for="amount">Amount</label>
+          <div class="input-group">
+            <div class="input-group-prepend">
+              <div class="input-group-text">$</div>
+            </div>
+            <input type="text" class="form-control" id="amount" placeholder="Amount"
+                   formControlName="amount"
+                   [class.is-invalid]="expenseFormGroup.get('amount').hasError('required') && expenseFormGroup.get('amount').touched">
+            <div *ngIf="expenseFormGroup.get('amount').hasError('required') && expenseFormGroup.get('amount').touched"
+                 class="invalid-feedback">
+              Please enter an amount.
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-3 mb-3">
+          <label for="description">Description</label>
+          <input type="text" class="form-control" id="description" placeholder="Description"
+                 formControlName="description"
+                 [class.is-invalid]="expenseFormGroup.get('description').hasError('maxlength')">
+          <div *ngIf="expenseFormGroup.get('description').hasError('maxlength')"
+               class="invalid-feedback d-block">
+            Must be less than 100 characters.
+          </div>
+        </div>
+      </div>
+
+      <button type="submit"
+              class="btn btn-primary mb-2"
+              [disabled]="expenseFormGroup.invalid">Add</button>
+    </form>
+
+  </div>
+</div>

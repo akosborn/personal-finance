@@ -1,0 +1,85 @@
+<div class="justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
+  <h1 class="h2 border-bottom">Checking Accounts</h1>
+  <div class="row no-gutters">
+    <hr>
+    <div class="col-12">
+      <table class="table">
+        <thead class="thead-light">
+          <tr>
+            <th scope="col">NAME</th>
+            <th scope="col">DESCRIPTION</th>
+            <th scope="col">BALANCE</th>
+            <th scope="col"></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let account of checkingAccounts">
+            <th scope="row">{{ account.name}}</th>
+            <td>{{ account.description }}</td>
+            <td>{{ account.balance | currency:'USD'}}</td>
+            <td>
+              <button class="btn btn-danger"
+                        (click)="onDeleteAccount(account.id)">Delete</button>
+            </td>
+          </tr>
+        </tbody>
+        <thead class="thead-light">
+          <tr>
+            <th scope="col"></th>
+            <th scope="col">TOTAL</th>
+            <th scope="col">{{ checkingAccounts | sum:'balance' | currency:'USD' }}</th>
+            <th scope="col"></th>
+          </tr>
+        </thead>
+      </table>
+    </div>
+    <div class="col-12">
+      <form [formGroup]="accountFormGroup" (submit)="onAddAccount()">
+        <div class="form-row">
+          <div class="col-md-6 mb-3">
+            <label for="name">Bank</label>
+            <input type="text" class="form-control"
+                   [class.is-invalid]="accountFormGroup.get('name').hasError('required') && accountFormGroup.get('name').touched"
+                   id="name" placeholder="Bank" formControlName="name">
+            <div *ngIf="accountFormGroup.get('name').hasError('required') && accountFormGroup.get('name').touched"
+                 class="invalid-feedback">
+              Please enter a name.
+            </div>
+          </div>
+
+          <div class="col-md-3 mb-3">
+            <label for="description">Description</label>
+            <input type="text" class="form-control" id="description" placeholder="Description"
+                   formControlName="description"
+                   [class.is-invalid]="accountFormGroup.get('description').hasError('maxlength')">
+            <div *ngIf="accountFormGroup.get('description').hasError('maxlength')"
+                 class="invalid-feedback d-block">
+              Must be less than 100 characters.
+            </div>
+          </div>
+
+          <div class="col-md-3 mb-3">
+            <label for="balance">Balance</label>
+            <div class="input-group">
+              <div class="input-group-prepend">
+                <div class="input-group-text">$</div>
+              </div>
+              <input type="text" class="form-control" id="balance" placeholder="Balance"
+                     formControlName="balance"
+                     [class.is-invalid]="accountFormGroup.get('balance').hasError('required') && accountFormGroup.get('balance').touched">
+              <div *ngIf="accountFormGroup.get('balance').hasError('required') && accountFormGroup.get('balance').touched"
+                   class="invalid-feedback">
+                Please enter a balance.
+              </div>
+            </div>
+          </div>
+
+          <button type="submit"
+                  class="btn btn-primary mb-2"
+                  [disabled]="accountFormGroup.invalid">Add</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+

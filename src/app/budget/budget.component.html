@@ -1,0 +1,192 @@
+<div class="justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
+  <h1 class="h2 border-bottom">Budget</h1>
+  <div class="row no-gutters border-bottom mb-4">
+    <hr>
+    <div class="col-12 col-md-4" style="text-align: center">
+      <h2>{{ (wallet.annualIncome / 12) | currency:'USD' }}</h2>
+      <p style="text-align: center"><b>NET</b> INCOME</p>
+    </div>
+    <div class="col-12 col-md-4 border-left border-right" style="text-align: center">
+      <h2>{{ budget.items | sum:'amount' | currency:'USD' }}</h2>
+      <p style="text-align: center"><b>BUDGETED</b> INCOME</p>
+    </div>
+    <div class="col-12 col-md-4" style="text-align: center">
+      <h2>{{ (wallet.annualIncome / 12) - (budget.items | sum:'amount') | currency:'USD' }}</h2>
+      <p style="text-align: center"><b>UNALLOCATED</b> INCOME</p>
+    </div>
+  </div>
+
+  <div class="row" *ngIf="budget">
+    <div class="col-12 col-md-9 col-xl-8">
+      <h5 class="d-inline">By Category</h5>
+      <!--<div class="row">-->
+        <!--<div class="col-12">-->
+          <!--<div class="card text-white" style="background-color: #2E3E4E">-->
+            <!--<div class="card-header">-->
+              <!--<div class="row">-->
+                <!--<div class="col-4 font-weight-light">DESCRIPTION</div>-->
+                <!--<div class="col-4 text-center font-weight-light">PERCENT</div>-->
+                <!--<div class="col-4 text-right font-weight-light">AMOUNT</div>-->
+              <!--</div>-->
+            <!--</div>-->
+          <!--</div>-->
+        <!--</div>-->
+      <!--</div>-->
+      <!--<div class="row">-->
+        <!--<div class="col-12" *ngFor="let category of itemsByCategory | keyvalue">-->
+          <!--<div class="card">-->
+            <!--<div class="card-header">-->
+              <!--<div class="row">-->
+                <!--<div class="col-4">{{ category.key }}</div>-->
+                <!--<div class="col-4 text-center">{{ ((category.value | sum:'amount') / monthlyNetIncome) | percent }}</div>-->
+                <!--<div class="col-4 text-right">{{ (category.value | sum:'amount') | currency:'USD' }}</div>-->
+              <!--</div>-->
+            <!--</div>-->
+            <!--<ul class="list-group list-group-flush">-->
+              <!--<li *ngFor="let item of category.value" class="list-group-item">-->
+                <!--<div class="row">-->
+                  <!--<div class="col-4">{{ item.description }}</div>-->
+                  <!--<div class="col-4 text-center">{{ item.amount / monthlyNetIncome | percent }}</div>-->
+                  <!--<div class="col-4 text-right">{{ item.amount | currency:'USD' }}</div>-->
+                <!--</div>-->
+              <!--</li>-->
+            <!--</ul>-->
+          <!--</div>-->
+        <!--</div>-->
+      <!--</div>-->
+      <!--<div class="row">-->
+        <!--<div class="col-12">-->
+          <!--<div class="card text-white" style="background-color: #2E3E4E">-->
+            <!--<div class="card-header">-->
+              <!--<div class="row">-->
+                <!--<div class="col-4 text-right font-weight-light">TOTAL</div>-->
+                <!--<div class="col-4 text-center font-weight-light">{{ ((budget.items | sum:'amount') / monthlyNetIncome) | percent }}</div>-->
+                <!--<div class="col-4 text-right font-weight-light">{{ (budget.items | sum:'amount') | currency:'USD' }}</div>-->
+              <!--</div>-->
+            <!--</div>-->
+          <!--</div>-->
+        <!--</div>-->
+      <!--</div>-->
+
+      <input (click)="toggleBudgetItemForm()" title="Show/hide budget item-creation form"
+             class="align-bottom float-right" style="outline: none;" type="image" src="assets/images/baseline-add-24px.svg">
+      <table class="table" *ngIf="budget.items">
+        <thead class="thead-light">
+        <tr>
+          <th scope="col">CATEGORY</th>
+          <th scope="col">AMOUNT</th>
+          <th scope="col">%</th>
+          <th scope="col"></th>
+        </tr>
+        </thead>
+        <tbody *ngFor="let category of itemsByCategory | keyvalue; let i = index">
+          <tr>
+            <td>
+              <input [ngbCollapse]="expandedRows.indexOf('category-' + i) > -1" class="align-top"
+                     type="image" src="assets/images/baseline-expand_more-24px.svg"
+                     (click)="showCategoryRows('category-' + i)">
+              <input [ngbCollapse]="expandedRows.indexOf('category-' + i) === -1" class="align-top"
+                     type="image" src="assets/images/baseline-expand_less-24px.svg"
+                     (click)="hideCategoryRows('category-' + i)">
+              {{ category.key }}
+            </td>
+            <td>{{ (category.value | sum:'amount') | currency:'USD' }}</td>
+            <td>{{ ((category.value | sum:'amount') / monthlyNetIncome) | percent }}</td>
+            <td></td>
+          </tr>
+          <tr *ngFor="let item of category.value" [ngbCollapse]="expandedRows.indexOf('category-' + i) === -1">
+            <td style="padding-left: 4rem">{{ item.description }}</td>
+            <td>{{ item.amount | currency:'USD' }}</td>
+            <td>{{ item.amount / monthlyNetIncome | percent }}</td>
+            <td>
+              <input type="image" class="align-middle" src="assets/images/baseline-remove-24px.svg" (click)="onDeleteItem(item.id)">
+              <input type="image" class="align-middle" src="assets/images/baseline-edit-24px.svg" (click)="onEditItem(item)">
+            </td>
+          </tr>
+        </tbody>
+        <thead class="thead-light">
+        <tr>
+          <th scope="col" class="text-right">TOTAL</th>
+          <th scope="col">{{ (budget.items | sum:'amount') | currency:'USD' }}</th>
+          <th scope="col">{{ ((budget.items | sum:'amount') / monthlyNetIncome) | percent }}</th>
+          <th scope="col"></th>
+        </tr>
+        </thead>
+      </table>
+      <form *ngIf="showBudgetItemForm" [formGroup]="budgetItemFormGroup" (submit)="onAddBudgetItem()">
+        <div class="form-row">
+          <div class="col-md-4 mb-3">
+            <label for="category">Category</label>
+            <select id="budget-item-category" class="form-control" formControlName="category">
+              <option *ngFor="let category of categories" value="{{ category }}">{{ category }}</option>
+            </select>
+          </div>
+
+          <div class="col-md-5 mb-3">
+            <label for="description">Description</label>
+            <input type="text" class="form-control" id="budget-item-desc" placeholder="Description"
+                   formControlName="description">
+          </div>
+
+          <div class="col-md-3 mb-3">
+            <label for="amount">Amount</label>
+            <div class="input-group">
+              <div class="input-group-prepend">
+                <div class="input-group-text">$</div>
+              </div>
+              <input type="number" class="form-control" id="budget-item-amt" placeholder="Amount"
+                     formControlName="amount">
+            </div>
+          </div>
+
+          <button type="submit"
+                  class="btn btn-primary mb-2">Add</button>
+        </div>
+      </form>
+
+      <form *ngIf="showEditBudgetItemForm" [formGroup]="budgetItemEditFormGroup" (submit)="onSaveItemEdit()">
+        <div class="form-row">
+          <div class="col-md-4 mb-3">
+            <label for="edit-budget-item-category">Category</label>
+            <select id="edit-budget-item-category" class="form-control" formControlName="category">
+              <option *ngFor="let category of categories" value="{{ category }}">{{ category }}</option>
+            </select>
+          </div>
+
+          <div class="col-md-5 mb-3">
+            <label for="edit-budget-item-desc">Description</label>
+            <input type="text" class="form-control" id="edit-budget-item-desc" placeholder="Description"
+                   formControlName="description">
+          </div>
+
+          <div class="col-md-3 mb-3">
+            <label for="amount">Amount</label>
+            <div class="input-group">
+              <div class="input-group-prepend">
+                <div class="input-group-text">$</div>
+              </div>
+              <input type="number" class="form-control" id="budget-item-amt" placeholder="Amount"
+                     formControlName="amount">
+            </div>
+          </div>
+
+          <button type="submit"
+                  class="btn btn-primary mb-2">Save</button>
+        </div>
+      </form>
+    </div>
+
+    <div class="col-12 col-md-3 col-xl-4 justify-content-center">
+      <div style="display: block">
+        <canvas baseChart
+                [data]="pieChartData"
+                [labels]="pieChartLabels"
+                [chartType]="pieChartType"
+                [options]="pieChartOptions"
+        ></canvas>
+      </div>
+    </div>
+  </div>
+
+</div>
+

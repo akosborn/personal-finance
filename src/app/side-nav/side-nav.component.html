@@ -1,3 +1,91 @@
-<p>
-  side-nav works!
-</p>
+<div [ngbCollapse]="collapsed" class="wrapper">
+  <nav class="col-6 col-md-3 col-xl-2 d-md-block sidebar">
+    <div class="sidebar-sticky">
+      <h6 *ngIf="wallet" class="sidebar-heading d-flex justify-content-center mb-1 text-muted">
+        {{ wallet.name }} Wallet
+      </h6>
+      <ul class="nav flex-column">
+        <li class="nav-item">
+          <a class="nav-link"
+             routerLink="/dashboard" routerLinkActive="active">
+            <span data-feather="home"></span>
+            <img src="assets/images/ic_dashboard_24px.svg" alt="Dashboard">
+            <span class="d-inline-block align-middle pl-1">Dashboard</span>
+            <span class="sr-only">(current)</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link"
+             routerLink="/budget" routerLinkActive="active">
+            <span data-feather="file"></span>
+            <img src="assets/images/baseline-pie_chart-24px.svg" alt="Budget">
+            <span class="d-inline-block align-middle pl-1">Budget</span>
+            <span class="sr-only">(current)</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link"
+             routerLink="/transactions" routerLinkActive="active">
+            <span data-feather="file"></span>
+            <img src="assets/images/ic_list_24px.svg" alt="Transactions">
+            <span class="d-inline-block align-middle pl-1">Transactions</span>
+            <span class="sr-only">(current)</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link"
+             routerLink="/settings" routerLinkActive="active">
+            <span data-feather="file"></span>
+            <img src="assets/images/baseline-settings-20px.svg" alt="Transactions">
+            <span class="d-inline-block align-middle pl-1">Settings</span>
+            <span class="sr-only">(current)</span>
+          </a>
+        </li>
+      </ul>
+
+      <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+        <span>Accounts</span>
+        <a class="d-flex align-items-center text-muted" href="#">
+          <span data-feather="plus-circle"></span>
+        </a>
+      </h6>
+      <ul class="nav flex-column mb-2">
+        <li class="nav-item">
+          <a class="nav-link"
+             routerLink="/checking" routerLinkActive="active">
+            <span data-feather="file-text"></span>
+            Checking
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link"
+             routerLink="/credit-cards" routerLinkActive="active">
+            <span data-feather="file-text"></span>
+            Credit Cards
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link"
+             routerLink="/investments" routerLinkActive="active">
+            <span data-feather="file-text"></span>
+            Investments
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link"
+             routerLink="/loans" routerLinkActive="active">
+            <span data-feather="file-text"></span>
+            Loans
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link"
+             routerLink="/savings" routerLinkActive="active">
+            <span data-feather="file-text"></span>
+            Savings
+          </a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+</div>
