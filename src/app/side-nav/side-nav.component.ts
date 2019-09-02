@@ -12,7 +12,7 @@ import { AuthService } from 'angularx-social-login';
 export class SideNavComponent implements OnInit {
 
   wallet: Wallet;
-  private collapsed;
+  collapsed;
   private screenWidth;
   @HostListener('window:resize', ['$event']) onResize(event?) {
     this.screenWidth = window.innerWidth;

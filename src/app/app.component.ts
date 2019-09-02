@@ -7,7 +7,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AppComponent implements OnInit {
 
-  static apiBaseUrl = 'http://142.93.5.41:8081/api/';
+  static apiBaseUrl = 'https://perfi.akosborn.com/api/';
 
   constructor() { }
 

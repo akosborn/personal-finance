@@ -11,7 +11,7 @@ import { ExpenseService } from '../shared/expense.service';
 export class TopNavComponent implements OnInit {
 
   private user: SocialUser;
-  private loggedIn: boolean;
+  loggedIn: boolean;
   private response: string;
 
   constructor(private sideNavToggleService: SideNavToggleService,
