@@ -1,4 +1,6 @@
 language: node_js
+node_js:
+  - "11"
 
 services:
   - docker
@@ -6,3 +8,4 @@ services:
 before_install:
   - "echo \"$DOCKER_PASSWORD\" | docker login -u \"$DOCKER_USERNAME\" --password-stdin"
   - "docker build -t akosborn/personal-finance:${TRAVIS_BRANCH//\\//\\_} ."
+  - "docker push akosborn/personal-finance:${TRAVIS_BRANCH//\\//\\_}"
